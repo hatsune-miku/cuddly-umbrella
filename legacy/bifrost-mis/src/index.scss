@@ -1,0 +1,182 @@
+// bifrost-mis 设计语言取自 anydrop（apps/desktop-tauri/src/styles.scss）：
+// 钢蓝 + 玫瑰粉双强调、冷白底、Segoe UI、紧凑卡片 / field 排版。
+
+:root {
+  --accent-blue: rgb(81, 131, 178);
+  --accent-blue-soft: rgb(170, 212, 248);
+  --accent-pink: rgb(213, 82, 118);
+  --accent-pink-soft: rgb(241, 167, 181);
+  --surface-base: rgb(242, 245, 250);
+  --text: #1f2933;
+  --text-subtle: #617083;
+  --line: rgba(31, 41, 51, 0.1);
+  --line-strong: rgba(81, 131, 178, 0.24);
+  --card: rgba(255, 255, 255, 0.86);
+  // 镜像暗色：暗色用白色低透明做「抬起」面板，亮色用 slate 低透明做「凹陷」面板
+  --field-bg: rgba(31, 41, 51, 0.025);
+  // 已填值的字段：朴素地用一抹钢蓝把它和空字段区分开
+  --accent-pink-softer: rgba(241, 167, 181, 0.1);
+  --field-bg-filled: var(--accent-pink-softer);
+}
+
+.dark {
+  --surface-base: rgb(20, 22, 28);
+  --text: #dce3ea;
+  --text-subtle: #7a8fa4;
+  --line: rgba(255, 255, 255, 0.07);
+  --line-strong: rgba(81, 131, 178, 0.32);
+  --card: rgba(34, 38, 46, 0.92);
+  --field-bg: rgba(255, 255, 255, 0.04);
+  --accent-pink-softer: rgba(241, 167, 181, 0.1);
+  --field-bg-filled: var(--accent-pink-softer);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--text);
+  background: var(--surface-base);
+  font-family: 'Segoe UI Variable Text', 'Segoe UI', 'Microsoft YaHei UI', sans-serif;
+  font-size: 13px;
+  font-synthesis: none;
+  text-rendering: geometricPrecision;
+}
+
+// anydrop 同款细滚动条
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(97, 112, 131, 0.28);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(97, 112, 131, 0.5);
+}
+
+// ── 接口标题：mono 字体凸显 API 路径感 ────────────────────────
+.editable-property-list h2,
+.editable-property-list-wrapper h2 {
+  margin: 0;
+  color: var(--text);
+  font-family: 'Cascadia Code', 'Consolas', 'JetBrains Mono', 'Menlo', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+// ── EditablePropertyList：外壳即卡片 + 自适应栅格 ──────────────
+// （global / legacy / mall 直接把 h2 + items + 保存放进同一容器）
+.editable-property-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  align-content: start;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+
+  > h2,
+  > p,
+  > .save-button {
+    grid-column: 1 / -1;
+  }
+}
+
+// ── hot-module：外壳卡片(flex) + 内层纯栅格 ──────────────────
+.editable-property-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+
+  // 内层栅格：去卡片底纹，只保留 auto-fit 多列布局
+  .editable-property-list {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+}
+
+// 顶部说明文字
+.editable-property-list > p,
+.editable-property-list-wrapper > p {
+  margin: -4px 0 0;
+  color: var(--text-subtle);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+// ── field 行（anydrop 紧凑字段卡）────────────────────────────
+.property-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: var(--field-bg);
+  overflow: hidden;
+  transition:
+    border-color 120ms ease,
+    background 120ms ease;
+
+  // 边框仅 hover 时显形
+  &:hover {
+    border-color: var(--line-strong);
+  }
+
+  // 已填值的字段：换用区分背景
+  &.filled {
+    /* background: var(--field-bg-filled); */
+  }
+
+  label {
+    display: block;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  // 描述 / entry 预览：限两行，过长截断，避免卡片高度参差
+  p {
+    display: -webkit-box;
+    overflow: hidden;
+    margin: 0 0 4px;
+    font-size: 12px;
+    line-height: 1.45;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  div[data-slot='input-wrapper'] {
+  }
+
+  .heroui-input {
+    width: 100%;
+  }
+
+  // 输入框文字：钢蓝 + 加粗（Select 的值槽同处理）
+  input,
+  [data-slot='value'] {
+  }
+}
+
+// ── 保存按钮：颜色交给 HeroUI primary（玫瑰粉），此处只管布局 ──
+.save-button {
+  justify-self: start;
+  align-self: flex-start;
+  margin-top: 4px;
+  font-weight: 600;
+}

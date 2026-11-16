@@ -1,0 +1,28 @@
+{
+  "id": "cuddly-browser-extension",
+  "name": "Bifrost 浏览器插件",
+  "description": "在 KOOK 与 Bifrost 标签页中选择环境、分支构建产物和热更模块",
+  "author": "guanzhen",
+  "runtime": "none",
+  "tags": ["KOOK", "QA", "浏览器扩展", "热更"],
+  "components": [
+    {
+      "kind": "extension",
+      "label": "浏览器插件",
+      "platforms": {
+        "windows-x64": {
+          "artifact": "cuddly-browser-extension_{version}.zip"
+        },
+        "windows-arm64": {
+          "artifact": "cuddly-browser-extension_{version}.zip"
+        },
+        "macos-x64": {
+          "artifact": "cuddly-browser-extension_{version}.zip"
+        },
+        "macos-arm64": {
+          "artifact": "cuddly-browser-extension_{version}.zip"
+        }
+      }
+    }
+  ]
+}

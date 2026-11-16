@@ -1,0 +1,58 @@
+const assert = require('node:assert/strict')
+const crypto = require('node:crypto')
+const fs = require('node:fs')
+const os = require('node:os')
+const path = require('node:path')
+
+const host = path.resolve(process.argv[2])
+const payload = path.resolve(process.argv[3])
+const { resolveDlcSelection, recordDlcApplication, readDlcPackage } = require(path.join(host, 'src/dlc-provider'))
+const { injectPlugins } = require(path.join(host, 'src/kook-package'))
+const pkg = readDlcPackage(payload)
+const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bifrost-dlc-verify-'))
+
+async function verify() {
+  const selected = path.join(root, 'dlc/kook-plugin-tools')
+  const directory = path.join(selected, pkg.manifest.id, pkg.manifest.version, 'test-install')
+  fs.mkdirSync(directory, { recursive: true })
+  fs.cpSync(payload, directory, { recursive: true })
+  const receiptPath = path.join(selected, 'applied.json')
+  const filename = path.join(selected, 'installed.json')
+  const entries = [{ id: pkg.manifest.id, version: pkg.manifest.version, directory, author: 'rin', name: 'Bifrost', sha256: 'a'.repeat(64) }]
+  function selection(dlcs, hostVersion = require(path.join(host, 'package.json')).version) {
+    const data = { format: 1, hostId: 'kook-plugin-tools', hostVersion, apiVersion: 1, revision: crypto.createHash('sha256').update(JSON.stringify(dlcs)).digest('hex'), receiptPath, dlcs }
+    fs.writeFileSync(filename, JSON.stringify(data))
+    return resolveDlcSelection(host, filename)
+  }
+  const app = path.join(root, 'app')
+  const build = path.join(app, 'webapp/build')
+  fs.mkdirSync(path.join(build, 'user-plugins'), { recursive: true })
+  fs.writeFileSync(path.join(build, 'index.htm'), '<html><head><script src="/app/kook-main.js"></script></head><body></body></html>')
+  fs.writeFileSync(path.join(build, 'user-plugins/custom.js'), 'custom plugin')
+  fs.writeFileSync(path.join(build, 'user-plugins/manifest.json'), JSON.stringify({ plugins: [{ id: 'custom', file: 'custom.js', enabled: true }] }))
+  fs.writeFileSync(path.join(build, 'user-config.json'), '{"panelWidth":640}')
+  const installed = selection(entries)
+  await injectPlugins(app, { toolRoot: host, dlcSelection: installed, instanceDir: app })
+  const manifest = JSON.parse(fs.readFileSync(path.join(build, 'user-plugins/manifest.json')))
+  assert.equal(manifest.plugins.find(p => p.id === 'bifrost').version, pkg.manifest.version)
+  const html = fs.readFileSync(path.join(build, 'index.htm'), 'utf8')
+  assert.ok(html.indexOf('/app/bifrost-hot-module-bootstrap.js') < html.indexOf('/app/kook-main.js'))
+  recordDlcApplication(installed, path.join(root, 'other-instance'))
+  recordDlcApplication(installed, app)
+  assert.equal(JSON.parse(fs.readFileSync(receiptPath)).instances.length, 2)
+  assert.throws(() => selection(entries, '0.0.1'))
+  await injectPlugins(app, { toolRoot: host, dlcSelection: selection([]), instanceDir: app })
+  assert.equal(fs.existsSync(path.join(build, 'user-plugins/bifrost.js')), false)
+  assert.equal(fs.existsSync(path.join(build, 'bifrost-hot-module-bootstrap.js')), false)
+  assert.equal(fs.readFileSync(path.join(build, 'user-plugins/custom.js'), 'utf8'), 'custom plugin')
+  await injectPlugins(app, { toolRoot: host, dlcSelection: selection(entries), instanceDir: app })
+  assert.equal(fs.readFileSync(path.join(build, 'user-config.json'), 'utf8'), '{"panelWidth":640}')
+  assert.equal(fs.readFileSync(path.join(build, 'user-plugins/bifrost.js'), 'utf8'), fs.readFileSync(path.join(payload, 'payload/bifrost.js'), 'utf8'))
+  console.log(`PASS ${pkg.manifest.id}@${pkg.manifest.version}: packaged host installation, early-script order, receipts, version rejection, removal, config-preserving reinstall`)
+}
+
+verify().finally(() => {
+  const resolved = path.resolve(root)
+  if (path.dirname(resolved) !== path.resolve(os.tmpdir()) || !path.basename(resolved).startsWith('bifrost-dlc-verify-')) throw new Error('Unsafe fixture cleanup path')
+  fs.rmSync(resolved, { recursive: true, force: true })
+}).catch(error => { console.error(error); process.exitCode = 1 })

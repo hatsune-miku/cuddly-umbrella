@@ -1,0 +1,2 @@
+FROM cuddly-console:pre-hot-module-20260825-123520
+COPY apps/console/dist/ /usr/share/nginx/html/

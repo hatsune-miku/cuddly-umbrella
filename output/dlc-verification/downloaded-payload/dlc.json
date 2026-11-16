@@ -1,0 +1,29 @@
+{
+  "format": 1,
+  "id": "kook-plugin-tools-bifrost",
+  "hostId": "kook-plugin-tools",
+  "apiVersion": 1,
+  "version": "0.3.0",
+  "author": "rin",
+  "name": "Bifrost",
+  "description": "PC 原地热更、需求配置与构建队列",
+  "plugins": [
+    {
+      "id": "bifrost",
+      "name": "Bifrost",
+      "description": "PC 原地热更、需求配置与构建队列",
+      "version": "0.3.0",
+      "icon": "🌉",
+      "enabled": false,
+      "file": "bifrost.js"
+    }
+  ],
+  "files": [
+    { "source": "payload/bifrost.js", "target": "user-plugins/bifrost.js" },
+    {
+      "source": "payload/bifrost-hot-module-bootstrap.js",
+      "target": "bifrost-hot-module-bootstrap.js"
+    }
+  ],
+  "earlyScripts": ["bifrost-hot-module-bootstrap.js"]
+}

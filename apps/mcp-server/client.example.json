@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "bifrost": {
+      "command": "node",
+      "args": ["C:/Users/guanz/projects/cuddly-umbrella/apps/mcp-server/dist/main.js"],
+      "env": {
+        "BIFROST_URL": "https://bifrost.vanillacake.cn",
+        "BIFROST_MCP_TOKEN": "<在主页 MCP 接入中生成的 Token>"
+      }
+    }
+  }
+}

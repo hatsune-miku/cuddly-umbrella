@@ -1,0 +1,8 @@
+services:
+  control-api:
+    volumes:
+      - ../html_h5:/sources/html_h5:ro
+
+  runner-agent:
+    volumes:
+      - ../html_h5:/sources/html_h5:ro

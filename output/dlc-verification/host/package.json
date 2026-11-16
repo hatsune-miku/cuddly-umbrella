@@ -1,0 +1,29 @@
+{
+  "name": "kook-plugin-tools",
+  "version": "1.1.9",
+  "description": "扫描 KOOK 实例，注入并管理本地测试插件",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node src/main.js",
+    "install-deps": "npm install asar",
+    "test": "node --test tests",
+    "full:pack": "node scripts/build-full-bundle.cjs",
+    "full:verify": "node scripts/verify-full-bundle.cjs",
+    "kfc:pack": "powershell -ExecutionPolicy Bypass -File kfc-pack.ps1",
+    "dlc:pack": "powershell -ExecutionPolicy Bypass -File kfc-dlc-pack.ps1",
+    "kfc:publish": "node kfc-publish.mjs",
+    "kfc:release": "powershell -ExecutionPolicy Bypass -File kfc-release.ps1"
+  },
+  "keywords": [
+    "kook",
+    "plugin",
+    "electron",
+    "asar"
+  ],
+  "author": "rin",
+  "license": "MIT",
+  "dependencies": {
+    "asar": "^3.2.0",
+    "fflate": "^0.8.2"
+  }
+}

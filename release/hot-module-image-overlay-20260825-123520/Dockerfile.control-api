@@ -1,0 +1,2 @@
+FROM cuddly-control-api:pre-hot-module-20260825-123520
+COPY apps/control-api/dist/main.js /app/apps/control-api/dist/main.js

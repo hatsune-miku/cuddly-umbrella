@@ -1,0 +1,139 @@
+{
+  "project": {
+    "id": "mini_game",
+    "name": "小游戏",
+    "kind": "remote",
+    "repositoryUrl": null,
+    "defaultBranch": "master",
+    "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/mini_game}...' --fail-if-no-match install --frozen-lockfile",
+    "buildCommand": "corepack pnpm@9.15.9 --dir apps/mini_game run build",
+    "outputDirectory": "apps/mini_game/dist",
+    "siteAdapter": "kook-remote-v1",
+    "enabled": false,
+    "required": false,
+    "configurationSource": "template",
+    "canReset": true,
+    "gitAuthorizationConfigured": false
+  },
+  "environments": {
+    "shared": {
+      "targetId": "mini_game",
+      "environmentId": "00000000-0000-4000-8000-000000000001",
+      "enabled": false,
+      "required": false,
+      "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/mini_game}...' --fail-if-no-match install --frozen-lockfile",
+      "buildCommand": "corepack pnpm@9.15.9 --dir apps/mini_game run build",
+      "outputDirectory": "apps/mini_game/dist"
+    },
+    "qa": {
+      "targetId": "mini_game",
+      "environmentId": "5b3a1b39-f4fe-4138-8bd5-577cf426528c",
+      "enabled": false,
+      "required": false,
+      "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/mini_game}...' --fail-if-no-match install --frozen-lockfile",
+      "buildCommand": "corepack pnpm@9.15.9 --dir apps/mini_game run build",
+      "outputDirectory": "apps/mini_game/dist"
+    },
+    "tttt": {
+      "targetId": "mini_game",
+      "environmentId": "ffed8978-2734-46c9-b6fa-8514c770322b",
+      "enabled": false,
+      "required": false,
+      "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/mini_game}...' --fail-if-no-match install --frozen-lockfile",
+      "buildCommand": "corepack pnpm@9.15.9 --dir apps/mini_game run build",
+      "outputDirectory": "apps/mini_game/dist"
+    }
+  },
+  "sites": [
+    {
+      "id": "main",
+      "name": "KOOK 网页端",
+      "hostname": "main.bifrost.vanillacake.cn",
+      "targetId": "webapp",
+      "environmentSlug": "shared",
+      "fallbackOrigin": "https://www.kookapp.cn",
+      "upstreamOrigin": "https://www.kookapp.cn",
+      "officialOrigin": "https://www.kookapp.cn",
+      "enabled": true,
+      "remoteTargetIds": [
+        "base",
+        "discover",
+        "gift",
+        "guild",
+        "help_center",
+        "mall",
+        "order_tracker",
+        "profile",
+        "settings",
+        "thread",
+        "tutorial",
+        "voice_panel",
+        "voice_runtime"
+      ],
+      "resourceProxyPrefixes": [
+        "https://img.kookapp.cn/",
+        "https://static.kookapp.cn/"
+      ]
+    },
+    {
+      "id": "main-qa",
+      "name": "KOOK 网页端（QA）",
+      "hostname": "main-qa.bifrost.vanillacake.cn",
+      "targetId": "webapp",
+      "environmentSlug": "qa",
+      "fallbackOrigin": "https://qa-www.dev.chuanyuapp.com",
+      "upstreamOrigin": "https://qa-www.dev.chuanyuapp.com",
+      "officialOrigin": "https://qa-www.dev.chuanyuapp.com",
+      "enabled": true,
+      "remoteTargetIds": [
+        "base",
+        "discover",
+        "gift",
+        "guild",
+        "help_center",
+        "mall",
+        "order_tracker",
+        "profile",
+        "settings",
+        "thread",
+        "tutorial",
+        "voice_panel",
+        "voice_runtime"
+      ],
+      "resourceProxyPrefixes": [
+        "https://img.kookapp.cn/",
+        "https://static.kookapp.cn/"
+      ]
+    },
+    {
+      "id": "main-tttt",
+      "name": "KOOK 网页端（tttt）",
+      "hostname": "main-tttt.bifrost.vanillacake.cn",
+      "targetId": "webapp",
+      "environmentSlug": "tttt",
+      "fallbackOrigin": "https://tttt-www.dev.chuanyuapp.com",
+      "upstreamOrigin": "https://tttt-www.dev.chuanyuapp.com",
+      "officialOrigin": "https://tttt-www.dev.chuanyuapp.com",
+      "enabled": true,
+      "remoteTargetIds": [
+        "base",
+        "discover",
+        "gift",
+        "guild",
+        "help_center",
+        "mall",
+        "order_tracker",
+        "profile",
+        "settings",
+        "thread",
+        "tutorial",
+        "voice_panel",
+        "voice_runtime"
+      ],
+      "resourceProxyPrefixes": [
+        "https://img.kookapp.cn/",
+        "https://static.kookapp.cn/"
+      ]
+    }
+  ]
+}

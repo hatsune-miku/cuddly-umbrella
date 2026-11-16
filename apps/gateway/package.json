@@ -1,0 +1,30 @@
+{
+  "name": "@cuddly/gateway",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "build": "tsup --config tsup.config.ts",
+    "start": "node dist/main.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@cuddly/artifact-store": "workspace:*",
+    "@cuddly/bifrost-rules": "workspace:*",
+    "@cuddly/build-adapters": "workspace:*",
+    "@cuddly/contracts": "workspace:*",
+    "@cuddly/db": "workspace:*",
+    "@cuddly/product": "workspace:*",
+    "@cuddly/site-adapters": "workspace:*",
+    "express": "^5.1.0",
+    "http-proxy-agent": "^7.0.2",
+    "https-proxy-agent": "^7.0.6",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "tsup": "^8.5.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2"
+  }
+}

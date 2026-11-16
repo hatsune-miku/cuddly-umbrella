@@ -1,0 +1,2 @@
+FROM cuddly-control-api:pre-multi-env-20260825-193318
+COPY apps/control-api/dist/main.js /app/apps/control-api/dist/main.js

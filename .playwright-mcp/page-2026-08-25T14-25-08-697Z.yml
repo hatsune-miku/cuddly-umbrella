@@ -1,0 +1,13 @@
+- main [ref=f1e3]:
+  - region [ref=f1e4]:
+    - generic [ref=f1e11]:
+      - text: BIFROST 配置组
+      - heading "正在读取分享配置" [level=1] [ref=f1e12]
+      - paragraph [ref=f1e13]: 这个链接固定记录提测环境与各项目分支，不会修改公共环境。
+    - status [ref=f1e14]:
+      - generic [ref=f1e17]:
+        - strong [ref=f1e18]: 正在加载配置
+        - generic [ref=f1e19]: 浏览器扩展会在配置就绪后自动打开隔离预览。
+    - generic [ref=f1e20]:
+      - generic [ref=f1e21]: Cuddly KOOK Preview
+      - generic [ref=f1e22]: Proudly Crafted With CakeDesign.

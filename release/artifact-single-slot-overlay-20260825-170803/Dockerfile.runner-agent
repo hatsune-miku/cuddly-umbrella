@@ -1,0 +1,2 @@
+FROM cuddly-runner-agent:pre-artifact-single-slot-20260825-170803
+COPY apps/runner-agent/dist/main.js /app/apps/runner-agent/dist/main.js

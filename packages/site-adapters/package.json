@@ -1,0 +1,17 @@
+{
+  "name": "@cuddly/site-adapters",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@cuddly/build-adapters": "workspace:*",
+    "@cuddly/contracts": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "typescript": "^5.9.2"
+  }
+}

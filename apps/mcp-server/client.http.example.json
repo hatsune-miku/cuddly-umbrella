@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "bifrost": {
+      "url": "https://bifrost.vanillacake.cn/api/v1/mcp",
+      "headers": { "Authorization": "Bearer <在主页 MCP 接入中生成的 Token>" }
+    }
+  }
+}

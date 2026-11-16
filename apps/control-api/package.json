@@ -1,0 +1,28 @@
+{
+  "name": "@cuddly/control-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "build": "tsup --config tsup.config.ts",
+    "start": "node dist/main.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@cuddly/mcp-server": "workspace:*",
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "@cuddly/contracts": "workspace:*",
+    "@cuddly/db": "workspace:*",
+    "@cuddly/domain": "workspace:*",
+    "@cuddly/product": "workspace:*",
+    "express": "^5.1.0",
+    "pg": "^8.16.3",
+    "yaml": "^2.9.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "tsup": "^8.5.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2"
+  }
+}

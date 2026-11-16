@@ -1,0 +1,66 @@
+map $ssl_server_name $cuddly_preview_certificate_name {
+    hostnames;
+    default "";
+    .__CUDDLY_PREVIEW_BASE_DOMAIN__ __CUDDLY_PREVIEW_BASE_DOMAIN__;
+}
+
+map $http_upgrade $cuddly_preview_connection {
+    default upgrade;
+    '' close;
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name *.__CUDDLY_PREVIEW_BASE_DOMAIN__;
+    client_max_body_size 128M;
+
+    location ^~ /.well-known/acme-challenge/ {
+        proxy_pass http://127.0.0.1:19873;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Proto http;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_buffering off;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:9872;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Proto http;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $cuddly_preview_connection;
+        proxy_buffering off;
+    }
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name *.__CUDDLY_PREVIEW_BASE_DOMAIN__;
+    client_max_body_size 128M;
+
+    # Variable certificate paths are resolved for each SNI name. The config can
+    # be loaded before a certificate exists; that hostname's TLS handshake starts
+    # succeeding after Certbot creates its matching live/<hostname> directory.
+    ssl_certificate "__CUDDLY_LETSENCRYPT_DIR__/live/$cuddly_preview_certificate_name/fullchain.pem";
+    ssl_certificate_key "__CUDDLY_LETSENCRYPT_DIR__/live/$cuddly_preview_certificate_name/privkey.pem";
+    ssl_session_cache shared:CuddlyPreviewSSL:10m;
+    ssl_session_timeout 10m;
+
+    location / {
+        proxy_pass http://127.0.0.1:9872;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $cuddly_preview_connection;
+        proxy_buffering off;
+    }
+}

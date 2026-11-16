@@ -1,0 +1,237 @@
+/* Bifrost's version-workbench theme. CakeUI continues to own control behavior. */
+:root,
+.cake-theme[data-theme='blue'][data-mode='light'] {
+  --cake-font: 'Segoe UI Variable Text', 'Microsoft YaHei UI', 'PingFang SC', sans-serif;
+  --bifrost-heading-font:
+    'Bahnschrift', 'Segoe UI Variable Display', 'Microsoft YaHei UI', 'PingFang SC', sans-serif;
+  --cake-mono: 'Cascadia Code', Consolas, monospace;
+  --cake-bg: #f2f4f8;
+  --cake-surface: #ffffff;
+  --cake-text: #182539;
+  --cake-muted: #5d6b80;
+  --cake-accent: #405cd6;
+  --cake-accent-ink: #3048b0;
+  --cake-accent-soft: #e9edff;
+  --cake-accent-hover: #dce3ff;
+  --cake-control: #ffffff;
+  --cake-control-hover: #f4f6fb;
+  --cake-hover: #e9edf4;
+  --cake-line: #d8dfe9;
+  --cake-success: #247257;
+  --cake-success-soft: #e4f2eb;
+  --cake-warning: #8f601b;
+  --cake-warning-soft: #fff1d6;
+  --cake-danger: #af3e50;
+  --cake-danger-soft: #fbe9ed;
+  --cake-radius-small: 6px;
+  --cake-radius-medium: 10px;
+  --cake-radius-large: 14px;
+  --cake-radius-dialog: 18px;
+  --cake-edge: inset 0 0 0 1px var(--cake-line);
+  --cake-shadow: 0 16px 48px #24344f24, 0 2px 8px #24344f0d;
+  --cake-backdrop: #18253945;
+  --bifrost-chrome: #24344f;
+  --bifrost-chrome-text: #f5f7ff;
+  --bifrost-chrome-muted: #c2cee3;
+  --bifrost-chrome-hover: #354969;
+}
+:root,
+.cake-theme {
+  --accent: var(--cake-accent);
+  --accent-strong: var(--cake-accent-ink);
+  --accent-soft: var(--cake-accent-soft);
+  --ink: var(--cake-text);
+  --muted: var(--cake-muted);
+  --line: var(--cake-line);
+  --line-strong: var(--cake-line);
+  --surface: var(--cake-surface);
+  --surface-soft: var(--cake-bg);
+  --success: var(--cake-success);
+  --success-soft: var(--cake-success-soft);
+  --warning: var(--cake-warning);
+  --warning-soft: var(--cake-warning-soft);
+  --danger: var(--cake-danger);
+  --danger-soft: var(--cake-danger-soft);
+  font-family: var(--cake-font);
+  font-synthesis: none;
+  font-variant-ligatures: none;
+  color: var(--cake-text);
+  background: var(--cake-bg);
+}
+[hidden] {
+  display: none !important;
+}
+.bifrost-theme {
+  min-height: 100vh;
+}
+/* Logs, URLs and documentation remain selectable despite CakeUI's application default. */
+pre,
+code,
+.job-console,
+.job-commands,
+.job-command,
+.help-content,
+.status-bar,
+.share-result-field,
+.share-preview-url,
+.active-description,
+.module-meta {
+  user-select: text;
+  -webkit-user-select: text;
+}
+.cake-button {
+  font-weight: 550;
+}
+.cake-button.icon-button,
+.cake-button.compact-icon {
+  min-width: 32px;
+  padding: 6px;
+}
+.cake-button.branch-picker-trigger {
+  width: 100%;
+  justify-content: space-between;
+  text-align: left;
+}
+.cake-button.branch-picker-option {
+  width: 100%;
+  text-align: left;
+  justify-content: space-between;
+  white-space: normal;
+}
+.cake-button.queue-row,
+.cake-button.history-row,
+.cake-button.queue-job-open,
+.cake-button.requirement-use {
+  width: 100%;
+  text-align: left;
+  white-space: normal;
+  border-radius: var(--cake-radius-small);
+}
+.cake-switch.toggle-row {
+  width: 100%;
+  padding: 14px 0;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+}
+.cake-switch.toggle-row .cake-switch-label {
+  flex: 1;
+}
+.cake-switch-label > div {
+  display: grid;
+  gap: 5px;
+}
+.cake-switch-label strong {
+  font-size: 13px;
+}
+.cake-switch-label span {
+  color: var(--cake-muted);
+  font-size: 12px;
+}
+.cake-checkbox.remote-project-option {
+  padding: 12px;
+  border-radius: var(--cake-radius-small);
+}
+.cake-textbox,
+.cake-textarea,
+.cake-numberbox,
+.cake-combobox {
+  max-width: 100%;
+  min-width: 0;
+}
+.cake-combobox {
+  width: 100%;
+}
+.cake-button:disabled {
+  cursor: not-allowed;
+}
+.cake-spinner.module-loading-spinner {
+  flex-shrink: 0;
+}
+.cake-button[data-variant='primary'] {
+  color: #ffffff;
+  background: var(--cake-accent);
+  box-shadow: none;
+}
+.cake-button[data-variant='primary']:hover:not(:disabled) {
+  color: #ffffff;
+  background: var(--cake-accent-ink);
+}
+.cake-button:focus-visible,
+.cake-combobox:focus-visible {
+  outline: 2px solid var(--cake-accent);
+  outline-offset: 3px;
+}
+.cake-badge {
+  border-radius: 5px;
+}
+.cake-dialog-title {
+  font-family: var(--bifrost-heading-font);
+  letter-spacing: 0;
+}
+.cake-theme .inline-error {
+  color: var(--cake-danger);
+  background: var(--cake-danger-soft);
+  border-radius: var(--cake-radius-small);
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  font-family: var(--cake-font);
+  background: var(--cake-bg);
+  color: var(--cake-text);
+}
+main,
+.auth-completion {
+  box-sizing: border-box;
+  width: min(100%, 460px);
+  padding: 32px;
+  border: 1px solid var(--cake-line);
+  border-top: 5px solid var(--bifrost-chrome);
+  border-radius: var(--cake-radius-large);
+  background: var(--cake-surface);
+  box-shadow: var(--cake-shadow);
+}
+h1,
+.auth-completion > strong {
+  display: block;
+  margin: 16px 0 10px;
+  font-size: 20px;
+  font-family: var(--bifrost-heading-font);
+  font-weight: 600;
+  line-height: 1.4;
+}
+p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--cake-muted);
+  line-height: 1.8;
+  user-select: text;
+}
+.mark {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--cake-success-soft);
+  color: var(--cake-success);
+  font-size: 22px;
+}
+#close-page {
+  width: 100%;
+  margin-top: 24px;
+}

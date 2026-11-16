@@ -1,0 +1,463 @@
+/* Application composition only. Interactive primitives are owned by CakeUI. */
+.app-page {
+  max-width: 1480px;
+  padding: 24px;
+}
+.console-surface {
+  min-height: calc(100vh - 48px);
+  border-radius: var(--cake-radius-large);
+  background: var(--cake-bg);
+  overflow: hidden;
+}
+.toolbar {
+  min-height: 68px;
+  padding: 14px 20px;
+  border: 0;
+  background: var(--cake-surface);
+}
+.environment-title {
+  gap: 12px;
+}
+.product-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 650;
+}
+.version-mode-main,
+.version-context-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  min-width: 0;
+  gap: 10px;
+}
+.version-mode-toolbar {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.version-mode-tabs {
+  width: auto;
+  flex-shrink: 0;
+}
+.version-context-controls .environment-switcher,
+.version-context-controls .site-switcher {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  color: var(--cake-muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+.version-context-controls .cake-combobox {
+  width: 145px;
+  min-width: 0;
+  max-width: 38vw;
+  height: 36px;
+  min-height: 36px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.version-context-controls .icon-button {
+  flex-shrink: 0;
+}
+@media (max-width: 600px) {
+  .toolbar:has(> .version-context-controls) {
+    flex-wrap: wrap;
+  }
+  .toolbar > .version-context-controls {
+    order: 3;
+    width: 100%;
+  }
+  .version-context-controls {
+    gap: 7px;
+  }
+  .version-context-controls .cake-combobox {
+    width: 116px;
+  }
+}
+.main-view-tabs,
+.management-tabs,
+.job-detail-tabs {
+  gap: 6px;
+  padding: 10px 18px;
+  background: var(--cake-surface);
+  border: 0;
+}
+.main-view-tabs .cake-button,
+.management-tabs .cake-button,
+.job-detail-tabs .cake-button,
+.version-mode-tabs .cake-button {
+  box-shadow: none;
+  background: transparent;
+}
+.main-view-tabs .cake-button.active,
+.management-tabs .cake-button.active,
+.job-detail-tabs .cake-button.active,
+.version-mode-tabs .cake-button.active {
+  background: var(--cake-accent-soft);
+  color: var(--cake-accent-ink);
+}
+.version-mode-toolbar {
+  margin: 0 18px;
+  padding: 12px 0;
+  background: transparent;
+  border: 0;
+}
+.version-mode-main > .main-view-tabs,
+.history-filters > .main-view-tabs {
+  flex: 0 0 auto;
+  width: auto;
+}
+.version-mode-main > .main-view-tabs {
+  margin-right: 2px;
+}
+.history-view > .history-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.history-filters > label {
+  flex: 0 1 140px;
+  min-width: 100px;
+}
+.history-filters > .history-query {
+  flex: 1 1 180px;
+}
+.version-mode-toolbar + .build-queue {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+.version-mode-main > .main-view-tabs,
+.history-filters > .main-view-tabs,
+.version-mode-tabs {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: 36px;
+  min-height: 36px;
+  border: 0;
+  padding: 2px;
+  background: var(--cake-hover);
+  border-radius: var(--cake-radius-medium);
+  gap: 2px;
+}
+.main-view-tabs .cake-button,
+.version-mode-tabs .cake-button {
+  box-sizing: border-box;
+  height: 32px;
+  min-height: 32px;
+  margin: 0;
+  border: 0;
+  padding: 0 10px;
+  font-size: 12px;
+  line-height: 16px;
+}
+.build-queue {
+  margin: 16px 18px 4px;
+  background: var(--cake-surface);
+  border: 0;
+  border-radius: var(--cake-radius-medium);
+  overflow: hidden;
+}
+.queue-heading {
+  padding: 12px 14px;
+  border: 0;
+}
+.queue-list {
+  padding: 0 6px 6px;
+  gap: 3px;
+}
+.cake-button.queue-row {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  padding: 10px;
+  height: auto;
+  border: 0;
+}
+.cake-button.queue-row.mine {
+  background: var(--cake-accent-soft);
+}
+.target-list {
+  gap: 12px;
+  padding: 0 18px 20px;
+  background: transparent;
+}
+.target-row {
+  background: var(--cake-surface);
+  border: 0;
+  border-radius: var(--cake-radius-medium);
+  padding: 15px;
+  gap: 12px;
+}
+.target-row:nth-child(odd) {
+  border-right: 0;
+}
+.target-name {
+  font-size: 14px;
+}
+.target-meta,
+.target-footnote {
+  color: var(--cake-muted);
+}
+.branch-picker-trigger.cake-button {
+  min-height: 40px;
+}
+.branch-picker-trigger-copy {
+  flex: 1;
+}
+.target-row .build-button {
+  white-space: nowrap;
+}
+.status-bar {
+  background: transparent;
+  border: 0;
+  padding-inline: 22px;
+  min-height: 38px;
+}
+.configuration-group-list,
+.requirements-list {
+  gap: 12px;
+  padding: 0 18px 20px;
+}
+.configuration-group-card,
+.requirement-card {
+  border: 0;
+  border-radius: var(--cake-radius-medium);
+  background: var(--cake-surface);
+  overflow: hidden;
+}
+.configuration-group-main.cake-button {
+  display: block;
+  width: 100%;
+  height: auto;
+  text-align: left;
+  white-space: normal;
+  box-shadow: none;
+  background: transparent;
+  padding: 16px;
+}
+.history-view {
+  padding: 18px;
+  background: transparent;
+}
+.history-filters {
+  border-radius: var(--cake-radius-medium);
+  background: var(--cake-surface);
+  padding: 14px;
+}
+.history-table {
+  margin-top: 14px;
+  border-radius: var(--cake-radius-medium);
+  overflow: hidden;
+  background: var(--cake-surface);
+}
+.cake-button.history-row {
+  display: grid;
+  border-radius: 0;
+  height: auto;
+  padding: 12px 16px;
+}
+.history-pagination .cake-combobox {
+  width: auto;
+}
+.auth-surface,
+.share-surface {
+  border: 0;
+  border-radius: var(--cake-radius-large);
+  box-shadow: var(--cake-shadow);
+}
+.auth-surface {
+  gap: 22px;
+  padding: 36px;
+}
+.auth-brand-mark,
+.share-brand-mark {
+  border-radius: var(--cake-radius-medium);
+}
+.auth-action.cake-button {
+  text-decoration: none;
+  min-height: 38px;
+}
+.management-panel,
+.configuration-editor,
+.branch-picker-dialog,
+.job-detail-panel {
+  border: 0;
+  border-radius: var(--cake-radius-dialog);
+  background: var(--cake-surface);
+  box-shadow: var(--cake-shadow);
+}
+.management-scrim,
+.configuration-editor-scrim,
+.branch-picker-scrim,
+.job-detail-scrim {
+  background: var(--cake-backdrop);
+  backdrop-filter: blur(4px);
+}
+.management-header,
+.job-detail-header,
+.configuration-editor-header,
+.branch-picker-heading {
+  padding: 22px 24px 16px;
+  border: 0;
+}
+.management-content {
+  background: var(--cake-surface);
+}
+.project-index-list {
+  display: grid;
+  gap: 5px;
+  padding: 8px;
+}
+.project-index-item.cake-button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  height: auto;
+  padding: 10px 12px;
+  box-shadow: none;
+  text-align: left;
+  background: transparent;
+}
+.project-index-list .project-index-item.cake-button.active {
+  background: var(--cake-accent-soft);
+  color: var(--cake-accent-ink);
+}
+.field-grid {
+  align-items: start;
+}
+.field {
+  color: var(--cake-text);
+  font-weight: 500;
+}
+.field > span {
+  font-weight: 600;
+}
+.field small {
+  color: var(--cake-muted);
+}
+.environment-section,
+.settings-section,
+.environment-project-card {
+  border-color: var(--cake-line);
+  border-radius: var(--cake-radius-medium);
+}
+.environment-project-toggles .cake-checkbox {
+  gap: 8px;
+}
+.branch-picker-search {
+  background: transparent;
+  border: 0;
+  padding: 10px 20px;
+}
+.branch-picker-search .cake-textbox {
+  flex: 1;
+  width: 100%;
+}
+.branch-picker-options {
+  padding: 0 12px 12px;
+}
+.cake-dialog.branch-picker-dialog {
+  display: revert;
+  width: min(620px, calc(100vw - 32px));
+  margin: auto;
+  max-height: calc(100dvh - 40px);
+  padding: 22px;
+}
+.cake-dialog.branch-picker-dialog .branch-picker-options {
+  max-height: min(440px, 55vh);
+  overflow-y: auto;
+}
+.cake-dialog.branch-picker-dialog .branch-picker-search {
+  padding: 0 0 14px;
+}
+.cake-dialog.branch-picker-dialog .branch-picker-footer {
+  border-radius: var(--cake-radius-small);
+}
+.branch-picker-option.cake-button {
+  display: flex;
+  height: auto;
+  padding: 12px;
+  box-shadow: none;
+}
+.branch-picker-option.selected {
+  background: var(--cake-accent-soft);
+}
+.branch-picker-footer {
+  border: 0;
+  background: var(--cake-bg);
+  padding: 12px 20px;
+}
+.job-console,
+.job-command,
+.command-line {
+  font-family: var(--cake-mono);
+  border-radius: var(--cake-radius-small);
+}
+.job-console {
+  background: #fff;
+  color: #111;
+  border-radius: 0 0 var(--cake-radius-small) var(--cake-radius-small);
+}
+.job-console-section {
+  background: #fff;
+}
+.job-console-toolbar {
+  background: var(--cake-bg);
+  color: var(--cake-text);
+  border-bottom-color: var(--cake-line);
+}
+.job-console-toolbar .icon-button {
+  color: var(--cake-text);
+}
+.job-console-toolbar .icon-button:hover {
+  color: var(--cake-text);
+  background: var(--cake-hover);
+}
+.job-step,
+.job-result-card {
+  border-radius: var(--cake-radius-small);
+}
+.inline-error.cake-alert {
+  padding: 12px 14px;
+}
+@media (max-width: 850px) {
+  .app-page {
+    padding: 10px;
+  }
+  .console-surface {
+    min-height: calc(100vh - 20px);
+  }
+  .target-list {
+    padding-inline: 12px;
+  }
+  .management-panel,
+  .job-detail-panel {
+    border-radius: var(--cake-radius-large);
+  }
+}
+@media (max-width: 560px) {
+  .app-page {
+    padding: 0;
+  }
+  .console-surface {
+    border-radius: 0;
+    min-height: 100vh;
+  }
+  .toolbar {
+    padding: 12px;
+    flex-wrap: wrap;
+  }
+  .toolbar-actions {
+    flex-wrap: wrap;
+  }
+  .target-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .build-queue {
+    margin-inline: 12px;
+  }
+}

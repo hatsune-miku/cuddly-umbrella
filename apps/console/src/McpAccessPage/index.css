@@ -1,0 +1,164 @@
+@layer bifrost-layout {
+  .mcp-access-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 32px 20px;
+    .mcp-access-surface {
+      width: min(760px, 100%);
+      min-width: 0;
+      align-self: flex-start;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface);
+      padding: 28px;
+    }
+    .mcp-access-header {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .mcp-access-back {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .mcp-access-title {
+      font-size: 22px;
+      font-weight: 600;
+      margin: 0;
+    }
+    .mcp-access-subtitle {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0;
+    }
+    .mcp-access-note {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 0;
+    }
+    .mcp-access-connection {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+    .mcp-access-field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+      min-width: 0;
+    }
+    .mcp-access-label {
+      font-size: 14px;
+    }
+    .mcp-access-create {
+      display: flex;
+      align-items: flex-end;
+      gap: 16px;
+      padding: 24px 0;
+    }
+    .mcp-access-secret {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border-left: 3px solid var(--accent);
+      padding: 4px 0 8px 16px;
+      margin: 0 0 28px;
+    }
+    .mcp-access-token {
+      font: inherit;
+      font-size: 14px;
+      color: var(--ink);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      width: 100%;
+      resize: vertical;
+      word-break: break-all;
+    }
+    .mcp-access-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .mcp-access-tokens {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .mcp-access-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .mcp-access-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 18px 0;
+      border-top: 1px solid var(--line);
+    }
+    .mcp-access-item-info {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+    .mcp-access-item-name {
+      font-weight: 600;
+      overflow-wrap: anywhere;
+    }
+    .mcp-access-prefix,
+    .mcp-access-meta {
+      font-size: 13px;
+      color: var(--muted);
+      overflow-wrap: anywhere;
+    }
+    .mcp-access-confirm {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 260px;
+    }
+    .mcp-access-message {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 20px 0 0;
+    }
+    .mcp-access-login {
+      padding-top: 24px;
+    }
+    .mcp-access-link {
+      color: var(--accent);
+    }
+    .mcp-access-token:focus-visible,
+    .mcp-access-back:focus-visible,
+    .mcp-access-link:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+  }
+  @media (max-width: 480px) {
+    .mcp-access-page {
+      padding: 16px 10px;
+      .mcp-access-surface {
+        padding: 20px;
+      }
+      .mcp-access-create,
+      .mcp-access-item {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  }
+}

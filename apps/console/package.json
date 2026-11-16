@@ -1,0 +1,28 @@
+{
+  "name": "@cuddly/console",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:ui": "node scripts/build-cake-ui.mjs",
+    "build:help": "node ../../docs/scripts/build_help.mjs",
+    "sync:pc-plugin": "node scripts/sync-pc-plugin.mjs",
+    "dev": "pnpm build:ui && pnpm sync:pc-plugin && vite --host 0.0.0.0",
+    "build": "pnpm build:ui && pnpm build:help && pnpm sync:pc-plugin && tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@a1knla/cakeui": "0.1.0",
+    "@cuddly/contracts": "workspace:*",
+    "@cuddly/product": "workspace:*",
+    "lucide-react": "^0.539.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.2"
+  }
+}

@@ -1,0 +1,2 @@
+FROM cuddly-build-worker:pre-artifact-single-slot-20260825-170803
+COPY apps/build-worker/dist/main.js /app/apps/build-worker/dist/main.js

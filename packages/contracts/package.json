@@ -1,0 +1,15 @@
+{
+  "name": "@cuddly/contracts",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "^4.0.15"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
+}

@@ -1,0 +1,2 @@
+FROM cuddly-gateway:pre-hot-module-20260825-123520
+COPY apps/gateway/dist/main.js /app/apps/gateway/dist/main.js

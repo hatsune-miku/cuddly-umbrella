@@ -1,0 +1,182 @@
+volumes:
+  cert-manager-auth:
+
+services:
+  mihomo:
+    build:
+      context: .
+      dockerfile: docker/mihomo.Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./data/docker/secrets/mihomo:/root/.config/mihomo
+    expose:
+      - '7890'
+      - '9090'
+    healthcheck:
+      test: ['CMD', '/mihomo', '-t', '-d', '/root/.config/mihomo']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  postgres:
+    image: postgres:16-bookworm
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: cuddly
+      POSTGRES_USER: cuddly
+      POSTGRES_PASSWORD: cuddly-internal
+    volumes:
+      - ./data/docker/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U cuddly -d cuddly']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  control-api:
+    build:
+      context: .
+      dockerfile: docker/node-service.Dockerfile
+      args:
+        APP: control-api
+    restart: unless-stopped
+    environment:
+      CUDDLY_PUBLIC_ORIGIN: ${CUDDLY_PUBLIC_ORIGIN:-https://bifrost.vanillacake.cn}
+      CUDDLY_PREVIEW_BASE_DOMAIN: ${CUDDLY_PREVIEW_BASE_DOMAIN:-bifrost.vanillacake.cn}
+      HTTP_PROXY: http://mihomo:7890
+      HTTPS_PROXY: http://mihomo:7890
+      ALL_PROXY: socks5h://mihomo:7890
+      NO_PROXY: localhost,127.0.0.1,postgres,runner-agent,build-worker,gateway,control-api,mihomo
+    expose:
+      - '9880'
+    volumes:
+      - ./data/docker/secrets:/srv/cuddly/secrets
+      - ./data/control-api-secrets/feishu:/srv/cuddly/secrets/feishu:ro
+      - ./data/docker/logs:/srv/cuddly/logs:ro
+      - cert-manager-auth:/srv/cuddly/cert-auth
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mihomo:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:9880/health/live').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  cert-manager:
+    build:
+      context: .
+      dockerfile: docker/cert-manager.Dockerfile
+    restart: unless-stopped
+    environment:
+      CUDDLY_PREVIEW_BASE_DOMAIN: ${CUDDLY_PREVIEW_BASE_DOMAIN:-bifrost.vanillacake.cn}
+      CUDDLY_AUTO_SSL_DNS_PROVIDER: ${CUDDLY_AUTO_SSL_DNS_PROVIDER:-}
+      CUDDLY_DNS_CREDENTIALS_FILE: /srv/cuddly/secrets/tencentcloud-dns.env
+    ports:
+      - '127.0.0.1:19873:8080'
+    volumes:
+      - ./data/docker/letsencrypt:/etc/letsencrypt
+      - cert-manager-auth:/srv/cuddly/cert-auth:ro
+      - ./data/cert-manager-secrets:/srv/cuddly/secrets:ro
+    depends_on:
+      control-api:
+        condition: service_healthy
+
+  runner-agent:
+    build:
+      context: .
+      dockerfile: docker/node-service.Dockerfile
+      args:
+        APP: runner-agent
+    restart: unless-stopped
+    environment:
+      HTTP_PROXY: http://mihomo:7890
+      HTTPS_PROXY: http://mihomo:7890
+      ALL_PROXY: socks5h://mihomo:7890
+      NO_PROXY: localhost,127.0.0.1,postgres,runner-agent,build-worker,gateway,control-api,mihomo
+    volumes:
+      - ./data/docker:/srv/cuddly
+    expose:
+      - '9882'
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:9882/health/ready').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    depends_on:
+      mihomo:
+        condition: service_healthy
+
+  build-worker:
+    build:
+      context: .
+      dockerfile: docker/node-service.Dockerfile
+      args:
+        APP: build-worker
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      runner-agent:
+        condition: service_healthy
+
+  gateway:
+    build:
+      context: .
+      dockerfile: docker/node-service.Dockerfile
+      args:
+        APP: gateway
+    restart: unless-stopped
+    environment:
+      CUDDLY_INTERNAL_PROXY_URL: http://mihomo:7890
+      CUDDLY_PREVIEW_BASE_DOMAIN: ${CUDDLY_PREVIEW_BASE_DOMAIN:-bifrost.vanillacake.cn}
+    volumes:
+      - ./data/docker/artifacts:/srv/cuddly/artifacts:ro
+    ports:
+      - '9872:9872'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mihomo:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:9872/health/ready').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  console:
+    build:
+      context: .
+      dockerfile: docker/console.Dockerfile
+    restart: unless-stopped
+    ports:
+      - '9888:80'
+    depends_on:
+      control-api:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD', 'wget', '-q', '--spider', 'http://127.0.0.1/']
+      interval: 10s
+      timeout: 5s
+      retries: 10

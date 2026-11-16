@@ -1,0 +1,788 @@
+{
+  "projects": {
+    "items": [
+      {
+        "id": "biz",
+        "name": "biz前端",
+        "kind": "spa-site",
+        "repositoryUrl": "git@git.chuanyuapp.com:frontend/biz-fe.git",
+        "defaultBranch": "master",
+        "installCommand": "npm install --legacy-peer-deps --verbose",
+        "buildCommand": "npm run build",
+        "outputDirectory": "build",
+        "siteAdapter": "generic-static-v1",
+        "enabled": true,
+        "required": false,
+        "configurationSource": "database",
+        "canReset": true,
+        "gitAuthorizationConfigured": false
+      },
+      {
+        "id": "online-h5",
+        "name": "在线h5 (html_h5)",
+        "kind": "h5-site",
+        "repositoryUrl": "git@git.chuanyuapp.com:frontend/html_h5.git",
+        "defaultBranch": "master",
+        "installCommand": "corepack pnpm@9.15.9 install --frozen-lockfile",
+        "buildCommand": "corepack pnpm@9.15.9 run build",
+        "outputDirectory": "build",
+        "siteAdapter": "kook-online-h5-v1",
+        "enabled": true,
+        "required": false,
+        "configurationSource": "database",
+        "canReset": true,
+        "gitAuthorizationConfigured": false
+      },
+      {
+        "id": "webapp",
+        "name": "网页端 (kaihei_html)",
+        "kind": "webapp",
+        "repositoryUrl": "git@git.chuanyuapp.com:frontend/kaihei_html.git",
+        "defaultBranch": "master",
+        "installCommand": "npm run i",
+        "buildCommand": "npm run build_fast",
+        "outputDirectory": "build",
+        "siteAdapter": "generic-static-v1",
+        "enabled": true,
+        "required": false,
+        "configurationSource": "database",
+        "canReset": true,
+        "gitAuthorizationConfigured": false
+      },
+      {
+        "id": "base",
+        "name": "[热更] base",
+        "kind": "remote",
+        "repositoryUrl": "git@git.chuanyuapp.com:frontend/kook.git",
+        "defaultBranch": "master",
+        "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/base}...' --fail-if-no-match install --frozen-lockfile",
+        "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/base run build:prod",
+        "outputDirectory": "apps/base/dist",
+        "siteAdapter": "kook-remote-v1",
+        "enabled": true,
+        "required": false,
+        "configurationSource": "database",
+        "canReset": true,
+        "gitAuthorizationConfigured": false
+      },
+      {
+        "id": "discover",
+        "name": "[热更] discover",
+        "kind": "remote",
+        "repositoryUrl": "git@git.chuanyuapp.com:frontend/kook.git",
+        "defaultBranch": "master",
+        "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/discover}...' --fail-if-no-match install --frozen-lockfile",
+        "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/discover run build:prod",
+        "outputDirectory": "apps/discover/dist",
+        "siteAdapter": "kook-remote-v1",
+        "enabled": true,
+        "required": false,
+        "configurationSource": "database",
+        "canReset": true,
+        "gitAuthorizationConfigured": false
+      },
+      {
+        "id": "gift",
+        "name": "[热更] gift",
+        "kind": "remote",
+        "repositoryUrl": "git@git.chuanyuapp.com:frontend/kook.git",
+        "defaultBranch": "master",
+        "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/gift}...' --fail-if-no-match install --frozen-lockfile",
+        "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/gift run build:prod",
+        "outputDirectory": "apps/gift/dist",
+        "siteAdapter": "kook-remote-v1",
+        "enabled": true,
+        "required": false,
+        "configurationSource": "database",
+        "canReset": true,
+        "gitAuthorizationConfigured": false
+      },
+      {
+        "id": "guild",
+        "name": "[热更] guild",
+        "kind": "remote",
+        "repositoryUrl": "git@git.chuanyuapp.com:frontend/kook.git",
+        "defaultBranch": "master",
+        "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/guild}...' --filter './packages/kjsbridge' --filter './packages/utils' --filter './packages/logicModels' --filter './packages/virtual-layout-engine' --filter './packages/virtual-layout-engine-react' --filter './packages/logicModelsReact' --fail-if-no-match install --frozen-lockfile",
+        "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && ( [ ! -f packages/logicModels/package.json ] || corepack pnpm@9.15.9 --dir packages/logicModels run build:js ) && ( [ ! -f packages/virtual-layout-engine/package.json ] || corepack pnpm@9.15.9 --dir packages/virtual-layout-engine run build ) && ( [ ! -f packages/virtual-layout-engine-react/package.json ] || corepack pnpm@9.15.9 --dir packages/virtual-layout-engine-react run build ) && corepack pnpm@9.15.9 --dir apps/guild run build:prod",
+        "outputDirectory": "apps/guild/dist",
+        "siteAdapter": "kook-remote-v1",
+        "enabled": true,
+        "required": false,
+        "configurationSource": "database",
+        "canReset": true,
+        "gitAuthorizationConfigured": false
+      },
+      {
+        "id": "help_center",
+        "name": "[热更] help_center",
+        "kind": "remote",
+        "repositoryUrl": "git@git.chuanyuapp.com:frontend/kook.git",
+        "defaultBranch": "master",
+        "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/help_center}...' --fail-if-no-match install --frozen-lockfile",
+        "buildCommand": "corepack pnpm@9.15.9 --dir apps/help_center run build:prod",
+        "outputDirectory": "apps/help_center/dist",
+        "siteAdapter": "kook-remote-v1",
+        "enabled": true,
+        "required": false,
+        "configurationSource": "database",
+        "canReset": true,
+        "gitAuthorizationConfigured": false
+      },
+      {
+        "id": "mall",
+        "name": "[热更] mall",
+        "kind": "remote",
+        "repositoryUrl": "git@git.chuanyuapp.com:frontend/kook.git",
+        "defaultBranch": "master",
+        "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/mall}...' --fail-if-no-match install --frozen-lockfile",
+        "buildCommand": "( [ ! -f packages/virtual-layout-engine-react/package.json ] || corepack pnpm@9.15.9 --dir packages/virtual-layout-engine-react run build ) && corepack pnpm@9.15.9 --dir apps/mall run build:prod",
+        "outputDirectory": "apps/mall/dist",
+        "siteAdapter": "kook-remote-v1",
+        "enabled": true,
+        "required": false,
+        "configurationSource": "database",
+        "canReset": true,
+        "gitAuthorizationConfigured": false
+      },
+      {
+        "id": "order_tracker",
+        "name": "[热更] order_tracker",
+        "kind": "remote",
+        "repositoryUrl": "git@git.chuanyuapp.com:frontend/kook.git",
+        "defaultBranch": "master",
+        "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/order_tracker}...' --fail-if-no-match install --frozen-lockfile",
+        "buildCommand": "corepack pnpm@9.15.9 --dir apps/order_tracker run build:prod",
+        "outputDirectory": "apps/order_tracker/dist",
+        "siteAdapter": "kook-remote-v1",
+        "enabled": true,
+        "required": false,
+        "configurationSource": "database",
+        "canReset": true,
+        "gitAuthorizationConfigured": false
+      },
+      {
+        "id": "profile",
+        "name": "[热更] profile",
+        "kind": "remote",
+        "repositoryUrl": "git@git.chuanyuapp.com:frontend/kook.git",
+        "defaultBranch": "master",
+        "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/profile}...' --fail-if-no-match install --frozen-lockfile",
+        "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/profile run build:prod",
+        "outputDirectory": "apps/profile/dist",
+        "siteAdapter": "kook-remote-v1",
+        "enabled": true,
+        "required": false,
+        "configurationSource": "database",
+        "canReset": true,
+        "gitAuthorizationConfigured": false
+      },
+      {
+        "id": "settings",
+        "name": "[热更] settings",
+        "kind": "remote",
+        "repositoryUrl": "git@git.chuanyuapp.com:frontend/kook.git",
+        "defaultBranch": "master",
+        "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/settings}...' --fail-if-no-match install --frozen-lockfile",
+        "buildCommand": "corepack pnpm@9.15.9 --dir apps/settings run build:prod",
+        "outputDirectory": "apps/settings/dist",
+        "siteAdapter": "kook-remote-v1",
+        "enabled": true,
+        "required": false,
+        "configurationSource": "database",
+        "canReset": true,
+        "gitAuthorizationConfigured": false
+      },
+      {
+        "id": "thread",
+        "name": "[热更] thread",
+        "kind": "remote",
+        "repositoryUrl": "git@git.chuanyuapp.com:frontend/kook.git",
+        "defaultBranch": "master",
+        "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/thread}...' --fail-if-no-match install --frozen-lockfile",
+        "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/thread run build:prod",
+        "outputDirectory": "apps/thread/dist",
+        "siteAdapter": "kook-remote-v1",
+        "enabled": true,
+        "required": false,
+        "configurationSource": "database",
+        "canReset": true,
+        "gitAuthorizationConfigured": false
+      },
+      {
+        "id": "tutorial",
+        "name": "[热更] tutorial",
+        "kind": "remote",
+        "repositoryUrl": "git@git.chuanyuapp.com:frontend/kook.git",
+        "defaultBranch": "master",
+        "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/tutorial}...' --fail-if-no-match install --frozen-lockfile",
+        "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/tutorial run build:prod",
+        "outputDirectory": "apps/tutorial/dist",
+        "siteAdapter": "kook-remote-v1",
+        "enabled": true,
+        "required": false,
+        "configurationSource": "database",
+        "canReset": true,
+        "gitAuthorizationConfigured": false
+      },
+      {
+        "id": "voice_panel",
+        "name": "[热更] voice_panel",
+        "kind": "remote",
+        "repositoryUrl": "git@git.chuanyuapp.com:frontend/kook.git",
+        "defaultBranch": "master",
+        "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/voice_panel}...' --fail-if-no-match install --frozen-lockfile",
+        "buildCommand": "corepack pnpm@9.15.9 --dir apps/voice_panel run build:prod",
+        "outputDirectory": "apps/voice_panel/dist",
+        "siteAdapter": "kook-remote-v1",
+        "enabled": true,
+        "required": false,
+        "configurationSource": "database",
+        "canReset": true,
+        "gitAuthorizationConfigured": false
+      },
+      {
+        "id": "voice_runtime",
+        "name": "[热更] voice_runtime",
+        "kind": "remote",
+        "repositoryUrl": "git@git.chuanyuapp.com:frontend/kook.git",
+        "defaultBranch": "master",
+        "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/voice_runtime}...' --fail-if-no-match install --frozen-lockfile",
+        "buildCommand": "( [ ! -f packages/logicModels/package.json ] || corepack pnpm@9.15.9 --dir packages/logicModels run build ) && corepack pnpm@9.15.9 --dir apps/voice_runtime run build:prod",
+        "outputDirectory": "apps/voice_runtime/dist",
+        "siteAdapter": "kook-remote-v1",
+        "enabled": true,
+        "required": false,
+        "configurationSource": "database",
+        "canReset": true,
+        "gitAuthorizationConfigured": false
+      },
+      {
+        "id": "mini_game",
+        "name": "[热更] mini_game",
+        "kind": "remote",
+        "repositoryUrl": "git@git.chuanyuapp.com:frontend/kook.git",
+        "defaultBranch": "master",
+        "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/mini_game}...' --fail-if-no-match install --frozen-lockfile",
+        "buildCommand": "corepack pnpm@9.15.9 --dir apps/mini_game run build",
+        "outputDirectory": "apps/mini_game/dist",
+        "siteAdapter": "kook-remote-v1",
+        "enabled": true,
+        "required": false,
+        "configurationSource": "database",
+        "canReset": true,
+        "gitAuthorizationConfigured": false
+      }
+    ]
+  },
+  "environments": {
+    "shared": {
+      "environment": {
+        "id": "00000000-0000-4000-8000-000000000001",
+        "slug": "shared",
+        "name": "线上",
+        "sortOrder": 1,
+        "status": "ACTIVE",
+        "backendOrigin": "https://www.kookapp.cn",
+        "useInternalProxy": false,
+        "resourceProxyPrefixes": [],
+        "currentRevisionId": null
+      },
+      "items": [
+        {
+          "targetId": "biz",
+          "environmentId": "00000000-0000-4000-8000-000000000001",
+          "enabled": true,
+          "required": false,
+          "installCommand": "npm install --legacy-peer-deps --verbose",
+          "buildCommand": "npm run build",
+          "outputDirectory": "build"
+        },
+        {
+          "targetId": "online-h5",
+          "environmentId": "00000000-0000-4000-8000-000000000001",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm install --frozen-lockfile",
+          "buildCommand": "corepack pnpm run build",
+          "outputDirectory": "build"
+        },
+        {
+          "targetId": "webapp",
+          "environmentId": "00000000-0000-4000-8000-000000000001",
+          "enabled": true,
+          "required": false,
+          "installCommand": "npm run i",
+          "buildCommand": "npm run build_fast",
+          "outputDirectory": "build"
+        },
+        {
+          "targetId": "base",
+          "environmentId": "00000000-0000-4000-8000-000000000001",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/base}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/base run build:prod",
+          "outputDirectory": "apps/base/dist"
+        },
+        {
+          "targetId": "discover",
+          "environmentId": "00000000-0000-4000-8000-000000000001",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/discover}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/discover run build:prod",
+          "outputDirectory": "apps/discover/dist"
+        },
+        {
+          "targetId": "gift",
+          "environmentId": "00000000-0000-4000-8000-000000000001",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/gift}...' --filter './packages/kjsbridge' --filter './packages/utils' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/gift run build:prod",
+          "outputDirectory": "apps/gift/dist"
+        },
+        {
+          "targetId": "guild",
+          "environmentId": "00000000-0000-4000-8000-000000000001",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/guild}...' --filter './packages/kjsbridge' --filter './packages/utils' --filter './packages/logicModels' --filter './packages/virtual-layout-engine' --filter './packages/virtual-layout-engine-react' --filter './packages/logicModelsReact' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && ( [ ! -f packages/logicModels/package.json ] || corepack pnpm@9.15.9 --dir packages/logicModels run build:js ) && ( [ ! -f packages/virtual-layout-engine/package.json ] || corepack pnpm@9.15.9 --dir packages/virtual-layout-engine run build ) && ( [ ! -f packages/virtual-layout-engine-react/package.json ] || corepack pnpm@9.15.9 --dir packages/virtual-layout-engine-react run build ) && corepack pnpm@9.15.9 --dir apps/guild run build:prod",
+          "outputDirectory": "apps/guild/dist"
+        },
+        {
+          "targetId": "help_center",
+          "environmentId": "00000000-0000-4000-8000-000000000001",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/help_center}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "corepack pnpm@9.15.9 --dir apps/help_center run build:prod",
+          "outputDirectory": "apps/help_center/dist"
+        },
+        {
+          "targetId": "mall",
+          "environmentId": "00000000-0000-4000-8000-000000000001",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/mall}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/virtual-layout-engine-react/package.json ] || corepack pnpm@9.15.9 --dir packages/virtual-layout-engine-react run build ) && corepack pnpm@9.15.9 --dir apps/mall run build:prod",
+          "outputDirectory": "apps/mall/dist"
+        },
+        {
+          "targetId": "order_tracker",
+          "environmentId": "00000000-0000-4000-8000-000000000001",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/order_tracker}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "corepack pnpm@9.15.9 --dir apps/order_tracker run build:prod",
+          "outputDirectory": "apps/order_tracker/dist"
+        },
+        {
+          "targetId": "profile",
+          "environmentId": "00000000-0000-4000-8000-000000000001",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/profile}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/profile run build:prod",
+          "outputDirectory": "apps/profile/dist"
+        },
+        {
+          "targetId": "settings",
+          "environmentId": "00000000-0000-4000-8000-000000000001",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/settings}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "corepack pnpm@9.15.9 --dir apps/settings run build:prod",
+          "outputDirectory": "apps/settings/dist"
+        },
+        {
+          "targetId": "thread",
+          "environmentId": "00000000-0000-4000-8000-000000000001",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/thread}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/thread run build:prod",
+          "outputDirectory": "apps/thread/dist"
+        },
+        {
+          "targetId": "tutorial",
+          "environmentId": "00000000-0000-4000-8000-000000000001",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/tutorial}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/tutorial run build:prod",
+          "outputDirectory": "apps/tutorial/dist"
+        },
+        {
+          "targetId": "voice_panel",
+          "environmentId": "00000000-0000-4000-8000-000000000001",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/voice_panel}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "corepack pnpm@9.15.9 --dir apps/voice_panel run build:prod",
+          "outputDirectory": "apps/voice_panel/dist"
+        },
+        {
+          "targetId": "voice_runtime",
+          "environmentId": "00000000-0000-4000-8000-000000000001",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/voice_runtime}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/logicModels/package.json ] || corepack pnpm@9.15.9 --dir packages/logicModels run build ) && corepack pnpm@9.15.9 --dir apps/voice_runtime run build:prod",
+          "outputDirectory": "apps/voice_runtime/dist"
+        },
+        {
+          "targetId": "mini_game",
+          "environmentId": "00000000-0000-4000-8000-000000000001",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/mini_game}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "corepack pnpm@9.15.9 --dir apps/mini_game run build",
+          "outputDirectory": "apps/mini_game/dist"
+        }
+      ]
+    },
+    "qa": {
+      "environment": {
+        "id": "5b3a1b39-f4fe-4138-8bd5-577cf426528c",
+        "slug": "qa",
+        "name": "QA",
+        "sortOrder": 2,
+        "status": "ACTIVE",
+        "backendOrigin": "https://qa-www.dev.chuanyuapp.com",
+        "useInternalProxy": true,
+        "resourceProxyPrefixes": [
+          "https://img.chuanyuapp.com/"
+        ],
+        "currentRevisionId": null
+      },
+      "items": [
+        {
+          "targetId": "biz",
+          "environmentId": "5b3a1b39-f4fe-4138-8bd5-577cf426528c",
+          "enabled": true,
+          "required": false,
+          "installCommand": "npm install --legacy-peer-deps --verbose",
+          "buildCommand": "npm run build",
+          "outputDirectory": "build"
+        },
+        {
+          "targetId": "online-h5",
+          "environmentId": "5b3a1b39-f4fe-4138-8bd5-577cf426528c",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 install --frozen-lockfile",
+          "buildCommand": "corepack pnpm@9.15.9 run build:dev",
+          "outputDirectory": "build"
+        },
+        {
+          "targetId": "webapp",
+          "environmentId": "5b3a1b39-f4fe-4138-8bd5-577cf426528c",
+          "enabled": true,
+          "required": false,
+          "installCommand": "npm run i",
+          "buildCommand": "npm run build_fast",
+          "outputDirectory": "build"
+        },
+        {
+          "targetId": "base",
+          "environmentId": "5b3a1b39-f4fe-4138-8bd5-577cf426528c",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/base}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/base run build:ttt",
+          "outputDirectory": "apps/base/dist"
+        },
+        {
+          "targetId": "discover",
+          "environmentId": "5b3a1b39-f4fe-4138-8bd5-577cf426528c",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/discover}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/discover run build:ttt",
+          "outputDirectory": "apps/discover/dist"
+        },
+        {
+          "targetId": "gift",
+          "environmentId": "5b3a1b39-f4fe-4138-8bd5-577cf426528c",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/gift}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/gift run build:ttt",
+          "outputDirectory": "apps/gift/dist"
+        },
+        {
+          "targetId": "guild",
+          "environmentId": "5b3a1b39-f4fe-4138-8bd5-577cf426528c",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/guild}...' --filter './packages/kjsbridge' --filter './packages/utils' --filter './packages/logicModels' --filter './packages/virtual-layout-engine' --filter './packages/virtual-layout-engine-react' --filter './packages/logicModelsReact' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && ( [ ! -f packages/logicModels/package.json ] || corepack pnpm@9.15.9 --dir packages/logicModels run build:js ) && ( [ ! -f packages/virtual-layout-engine/package.json ] || corepack pnpm@9.15.9 --dir packages/virtual-layout-engine run build ) && ( [ ! -f packages/virtual-layout-engine-react/package.json ] || corepack pnpm@9.15.9 --dir packages/virtual-layout-engine-react run build ) && corepack pnpm@9.15.9 --dir apps/guild run build:ttt",
+          "outputDirectory": "apps/guild/dist"
+        },
+        {
+          "targetId": "help_center",
+          "environmentId": "5b3a1b39-f4fe-4138-8bd5-577cf426528c",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/help_center}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "corepack pnpm@9.15.9 --dir apps/help_center run build:ttt",
+          "outputDirectory": "apps/help_center/dist"
+        },
+        {
+          "targetId": "mall",
+          "environmentId": "5b3a1b39-f4fe-4138-8bd5-577cf426528c",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/mall}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/virtual-layout-engine-react/package.json ] || corepack pnpm@9.15.9 --dir packages/virtual-layout-engine-react run build ) && corepack pnpm@9.15.9 --dir apps/mall run build:ttt",
+          "outputDirectory": "apps/mall/dist"
+        },
+        {
+          "targetId": "order_tracker",
+          "environmentId": "5b3a1b39-f4fe-4138-8bd5-577cf426528c",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/order_tracker}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "corepack pnpm@9.15.9 --dir apps/order_tracker run build:ttt",
+          "outputDirectory": "apps/order_tracker/dist"
+        },
+        {
+          "targetId": "profile",
+          "environmentId": "5b3a1b39-f4fe-4138-8bd5-577cf426528c",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/profile}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/profile run build:ttt",
+          "outputDirectory": "apps/profile/dist"
+        },
+        {
+          "targetId": "settings",
+          "environmentId": "5b3a1b39-f4fe-4138-8bd5-577cf426528c",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/settings}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "corepack pnpm@9.15.9 --dir apps/settings run build:ttt",
+          "outputDirectory": "apps/settings/dist"
+        },
+        {
+          "targetId": "thread",
+          "environmentId": "5b3a1b39-f4fe-4138-8bd5-577cf426528c",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/thread}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/thread run build:ttt",
+          "outputDirectory": "apps/thread/dist"
+        },
+        {
+          "targetId": "tutorial",
+          "environmentId": "5b3a1b39-f4fe-4138-8bd5-577cf426528c",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/tutorial}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/tutorial run build:ttt",
+          "outputDirectory": "apps/tutorial/dist"
+        },
+        {
+          "targetId": "voice_panel",
+          "environmentId": "5b3a1b39-f4fe-4138-8bd5-577cf426528c",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/voice_panel}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "corepack pnpm@9.15.9 --dir apps/voice_panel run build:ttt",
+          "outputDirectory": "apps/voice_panel/dist"
+        },
+        {
+          "targetId": "voice_runtime",
+          "environmentId": "5b3a1b39-f4fe-4138-8bd5-577cf426528c",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/voice_runtime}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/logicModels/package.json ] || corepack pnpm@9.15.9 --dir packages/logicModels run build ) && corepack pnpm@9.15.9 --dir apps/voice_runtime run build:ttt",
+          "outputDirectory": "apps/voice_runtime/dist"
+        },
+        {
+          "targetId": "mini_game",
+          "environmentId": "5b3a1b39-f4fe-4138-8bd5-577cf426528c",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/mini_game}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "corepack pnpm@9.15.9 --dir apps/mini_game run build",
+          "outputDirectory": "apps/mini_game/dist"
+        }
+      ]
+    },
+    "tttt": {
+      "environment": {
+        "id": "ffed8978-2734-46c9-b6fa-8514c770322b",
+        "slug": "tttt",
+        "name": "tttt",
+        "sortOrder": 0,
+        "status": "ACTIVE",
+        "backendOrigin": "https://tttt-www.dev.chuanyuapp.com",
+        "useInternalProxy": true,
+        "resourceProxyPrefixes": [
+          "https://img.chuanyuapp.com/"
+        ],
+        "currentRevisionId": null
+      },
+      "items": [
+        {
+          "targetId": "biz",
+          "environmentId": "ffed8978-2734-46c9-b6fa-8514c770322b",
+          "enabled": true,
+          "required": false,
+          "installCommand": "npm install --legacy-peer-deps --verbose",
+          "buildCommand": "npm run build",
+          "outputDirectory": "build"
+        },
+        {
+          "targetId": "online-h5",
+          "environmentId": "ffed8978-2734-46c9-b6fa-8514c770322b",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm install --frozen-lockfile",
+          "buildCommand": "corepack pnpm run build:dev",
+          "outputDirectory": "build"
+        },
+        {
+          "targetId": "webapp",
+          "environmentId": "ffed8978-2734-46c9-b6fa-8514c770322b",
+          "enabled": true,
+          "required": false,
+          "installCommand": "npm run i",
+          "buildCommand": "npm run build_fast",
+          "outputDirectory": "build"
+        },
+        {
+          "targetId": "base",
+          "environmentId": "ffed8978-2734-46c9-b6fa-8514c770322b",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/base}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/base run build:ttt",
+          "outputDirectory": "apps/base/dist"
+        },
+        {
+          "targetId": "discover",
+          "environmentId": "ffed8978-2734-46c9-b6fa-8514c770322b",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/discover}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/discover run build:ttt",
+          "outputDirectory": "apps/discover/dist"
+        },
+        {
+          "targetId": "gift",
+          "environmentId": "ffed8978-2734-46c9-b6fa-8514c770322b",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/gift}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/gift run build:ttt",
+          "outputDirectory": "apps/gift/dist"
+        },
+        {
+          "targetId": "guild",
+          "environmentId": "ffed8978-2734-46c9-b6fa-8514c770322b",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/guild}...' --filter './packages/kjsbridge' --filter './packages/utils' --filter './packages/logicModels' --filter './packages/virtual-layout-engine' --filter './packages/virtual-layout-engine-react' --filter './packages/logicModelsReact' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && ( [ ! -f packages/logicModels/package.json ] || corepack pnpm@9.15.9 --dir packages/logicModels run build:js ) && ( [ ! -f packages/virtual-layout-engine/package.json ] || corepack pnpm@9.15.9 --dir packages/virtual-layout-engine run build ) && ( [ ! -f packages/virtual-layout-engine-react/package.json ] || corepack pnpm@9.15.9 --dir packages/virtual-layout-engine-react run build ) && corepack pnpm@9.15.9 --dir apps/guild run build:ttt",
+          "outputDirectory": "apps/guild/dist"
+        },
+        {
+          "targetId": "help_center",
+          "environmentId": "ffed8978-2734-46c9-b6fa-8514c770322b",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/help_center}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "corepack pnpm@9.15.9 --dir apps/help_center run build:ttt",
+          "outputDirectory": "apps/help_center/dist"
+        },
+        {
+          "targetId": "mall",
+          "environmentId": "ffed8978-2734-46c9-b6fa-8514c770322b",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/mall}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/virtual-layout-engine-react/package.json ] || corepack pnpm@9.15.9 --dir packages/virtual-layout-engine-react run build ) && corepack pnpm@9.15.9 --dir apps/mall run build:ttt",
+          "outputDirectory": "apps/mall/dist"
+        },
+        {
+          "targetId": "order_tracker",
+          "environmentId": "ffed8978-2734-46c9-b6fa-8514c770322b",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/order_tracker}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "corepack pnpm@9.15.9 --dir apps/order_tracker run build:ttt",
+          "outputDirectory": "apps/order_tracker/dist"
+        },
+        {
+          "targetId": "profile",
+          "environmentId": "ffed8978-2734-46c9-b6fa-8514c770322b",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/profile}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/profile run build:ttt",
+          "outputDirectory": "apps/profile/dist"
+        },
+        {
+          "targetId": "settings",
+          "environmentId": "ffed8978-2734-46c9-b6fa-8514c770322b",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/settings}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "corepack pnpm@9.15.9 --dir apps/settings run build:ttt",
+          "outputDirectory": "apps/settings/dist"
+        },
+        {
+          "targetId": "thread",
+          "environmentId": "ffed8978-2734-46c9-b6fa-8514c770322b",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/thread}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/thread run build:ttt",
+          "outputDirectory": "apps/thread/dist"
+        },
+        {
+          "targetId": "tutorial",
+          "environmentId": "ffed8978-2734-46c9-b6fa-8514c770322b",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/tutorial}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/kjsbridge/package.json ] || corepack pnpm@9.15.9 --dir packages/kjsbridge run build ) && ( [ ! -f packages/utils/package.json ] || corepack pnpm@9.15.9 --dir packages/utils run build ) && corepack pnpm@9.15.9 --dir apps/tutorial run build:ttt",
+          "outputDirectory": "apps/tutorial/dist"
+        },
+        {
+          "targetId": "voice_panel",
+          "environmentId": "ffed8978-2734-46c9-b6fa-8514c770322b",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/voice_panel}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "corepack pnpm@9.15.9 --dir apps/voice_panel run build:ttt",
+          "outputDirectory": "apps/voice_panel/dist"
+        },
+        {
+          "targetId": "voice_runtime",
+          "environmentId": "ffed8978-2734-46c9-b6fa-8514c770322b",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/voice_runtime}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "( [ ! -f packages/logicModels/package.json ] || corepack pnpm@9.15.9 --dir packages/logicModels run build ) && corepack pnpm@9.15.9 --dir apps/voice_runtime run build:ttt",
+          "outputDirectory": "apps/voice_runtime/dist"
+        },
+        {
+          "targetId": "mini_game",
+          "environmentId": "ffed8978-2734-46c9-b6fa-8514c770322b",
+          "enabled": true,
+          "required": false,
+          "installCommand": "corepack pnpm@9.15.9 --filter '{./apps/mini_game}...' --fail-if-no-match install --frozen-lockfile",
+          "buildCommand": "corepack pnpm@9.15.9 --dir apps/mini_game run build",
+          "outputDirectory": "apps/mini_game/dist"
+        }
+      ]
+    }
+  }
+}

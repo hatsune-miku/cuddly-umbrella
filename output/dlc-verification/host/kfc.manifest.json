@@ -1,0 +1,46 @@
+{
+  "id": "kook-plugin-tools",
+  "name": "KOOK PC 注入工具",
+  "description": "扫描 KOOK 实例，注入并管理本地测试插件。就像移动端的 Dokit 一样，提供各类方便的功能，且提供强大的插件 API。支持注入 Node 代码。",
+  "author": "rin",
+  "dlcHost": {
+    "apiVersion": 1,
+    "defaultDlcIds": [
+      "kook-plugin-tools-bifrost",
+      "kook-plugin-tools-environment-switcher",
+      "kook-plugin-tools-kook-resource-orb",
+      "kook-plugin-tools-kaccount-switch",
+      "kook-plugin-tools-vmic",
+      "kook-plugin-tools-hot-module-version"
+    ]
+  },
+  "runtime": "none",
+  "tags": [
+    "KOOK",
+    "Windows",
+    "插件",
+    "测试工具"
+  ],
+  "components": [
+    {
+      "kind": "archive",
+      "platforms": {
+        "windows-x64": {
+          "artifact": "kook-plugin-tools_{version}_windows-x64.zip"
+        }
+      },
+      "entry": "kook-plugin-tools.cmd",
+      "setup": [
+        "npm",
+        "install"
+      ]
+    }
+  ],
+  "assets": {
+    "icon": "/api/tools/kook-plugin-tools/assets/icon-20260828065543272-59710.png",
+    "background": "/api/tools/kook-plugin-tools/assets/background-20260914132935363-20251014-192637.gif"
+  },
+  "requires": [
+    "nodejs"
+  ]
+}

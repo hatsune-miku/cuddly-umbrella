@@ -1,0 +1,188 @@
+@layer bifrost-layout {
+  .permissions-page {
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 32px 24px;
+    .permissions-surface {
+      width: min(1120px, 100%);
+      min-width: 0;
+      align-self: flex-start;
+      background: var(--cake-surface, #fff);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+    .permissions-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+    .permissions-title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .permissions-back {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      color: var(--ink);
+      border-radius: 6px;
+    }
+    .permissions-title {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .permissions-current-level {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .permissions-intro {
+      margin: 24px 24px 8px;
+      font-size: 14px;
+    }
+    .permissions-hint {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .permissions-rules {
+      margin: 0 24px 20px;
+      max-width: 78ch;
+    }
+    .permissions-tabs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 24px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    .permissions-refresh {
+      margin-left: auto;
+    }
+    .permissions-search {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      align-items: center;
+      gap: 10px;
+      padding: 24px 24px 0;
+    }
+    .permissions-role-example {
+      margin: 12px 24px;
+    }
+    .permissions-table-scroll {
+      width: 100%;
+      overflow-x: auto;
+    }
+    .permissions-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+    }
+    .permissions-table-head {
+      background: var(--surface-soft);
+    }
+    .permissions-cell {
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+      font-weight: 400;
+    }
+    .permissions-user-name {
+      display: block;
+      font-weight: 600;
+    }
+    .permissions-user-id {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      max-width: 260px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .permissions-level-cell {
+      width: 155px;
+      min-width: 155px;
+    }
+    .permissions-roles-cell {
+      min-width: 260px;
+    }
+    .permissions-action-cell {
+      width: 160px;
+      min-width: 120px;
+    }
+    .permissions-row-message {
+      display: block;
+      margin-top: 8px;
+      max-width: 200px;
+      font-size: 12px;
+    }
+    .permissions-pagination {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      padding: 20px 24px;
+    }
+    .permissions-default-field {
+      display: grid;
+      grid-template-columns: minmax(130px, 210px) 130px;
+      gap: 8px 16px;
+      align-items: center;
+      margin: 24px;
+    }
+    .permissions-field-label {
+      font-size: 14px;
+    }
+    .permissions-default-field .permissions-hint {
+      grid-column: 1 / -1;
+    }
+    .permissions-save-bar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 16px;
+      padding: 20px 24px;
+    }
+    .permissions-message {
+      font-size: 13px;
+    }
+    .permissions-error {
+      margin: 20px 24px 0;
+      padding: 12px;
+      background: var(--danger-soft);
+      color: var(--danger);
+      border-radius: 6px;
+      font-size: 13px;
+    }
+    .permissions-empty {
+      padding: 40px 24px;
+      color: var(--muted);
+      text-align: center;
+    }
+  }
+  @media (max-width: 640px) {
+    .permissions-page {
+      padding: 12px;
+      .permissions-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .permissions-search {
+        grid-template-columns: minmax(0, 1fr) auto;
+      }
+      .permissions-cell {
+        padding: 12px 16px;
+      }
+    }
+  }
+}

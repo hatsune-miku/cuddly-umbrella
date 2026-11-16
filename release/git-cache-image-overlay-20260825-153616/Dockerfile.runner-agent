@@ -1,0 +1,2 @@
+FROM cuddly-runner-agent:pre-git-cache-20260825-153616
+COPY main.js /app/apps/runner-agent/dist/main.js

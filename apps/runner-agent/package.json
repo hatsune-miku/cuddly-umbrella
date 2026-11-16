@@ -1,0 +1,25 @@
+{
+  "name": "@cuddly/runner-agent",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "build": "tsup --config tsup.config.ts",
+    "start": "node dist/main.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@cuddly/artifact-store": "workspace:*",
+    "@cuddly/build-adapters": "workspace:*",
+    "@cuddly/contracts": "workspace:*",
+    "@cuddly/domain": "workspace:*",
+    "@cuddly/product": "workspace:*",
+    "express": "^5.1.0",
+    "typescript": "^5.9.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "tsx": "^4.20.3",
+    "tsup": "^8.5.0"
+  }
+}

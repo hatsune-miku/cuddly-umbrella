@@ -1,0 +1,122 @@
+/* Product layout tokens are aliases, not a second palette. CakeUI owns components. */
+:root,
+.cake-theme {
+  --accent: var(--cake-accent);
+  --accent-strong: var(--cake-accent-ink);
+  --accent-soft: var(--cake-accent-soft);
+  --ink: var(--cake-text);
+  --muted: var(--cake-muted);
+  --line: var(--cake-line);
+  --line-strong: var(--cake-line);
+  --surface: var(--cake-surface);
+  --surface-soft: var(--cake-bg);
+  --success: var(--cake-success);
+  --success-soft: var(--cake-success-soft);
+  --warning: var(--cake-warning);
+  --warning-soft: var(--cake-warning-soft);
+  --danger: var(--cake-danger);
+  --danger-soft: var(--cake-danger-soft);
+  font-family: var(--cake-font);
+  font-synthesis: none;
+  font-variant-ligatures: none;
+  color: var(--cake-text);
+  background: var(--cake-bg);
+}
+[hidden] {
+  display: none !important;
+}
+.bifrost-theme {
+  min-height: 100vh;
+}
+/* Keep copying for editable fields, logs, commands, share links and documentation only. */
+input,
+textarea,
+[contenteditable='true'],
+pre,
+code,
+.job-console,
+.job-commands,
+.job-command,
+.help-content,
+.share-result-field,
+.share-preview-url {
+  user-select: text;
+  -webkit-user-select: text;
+}
+.cake-button {
+  font-weight: 600;
+}
+.cake-button.icon-button,
+.cake-button.compact-icon {
+  min-width: 32px;
+  padding: 6px;
+}
+.cake-button.branch-picker-trigger {
+  width: 100%;
+  justify-content: space-between;
+  text-align: left;
+}
+.cake-button.branch-picker-option {
+  width: 100%;
+  text-align: left;
+  justify-content: space-between;
+  white-space: normal;
+}
+.cake-button.queue-row,
+.cake-button.history-row,
+.cake-button.queue-job-open,
+.cake-button.requirement-use {
+  width: 100%;
+  text-align: left;
+  white-space: normal;
+  border-radius: var(--cake-radius-small);
+}
+.cake-switch.toggle-row {
+  width: 100%;
+  padding: 14px 0;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+}
+.cake-switch.toggle-row .cake-switch-label {
+  flex: 1;
+}
+.cake-switch-label > div {
+  display: grid;
+  gap: 5px;
+}
+.cake-switch-label strong {
+  font-size: 13px;
+}
+.cake-switch-label span {
+  color: var(--cake-muted);
+  font-size: 12px;
+}
+.cake-checkbox.remote-project-option {
+  padding: 12px;
+  border-radius: var(--cake-radius-small);
+}
+.cake-textbox,
+.cake-textarea,
+.cake-numberbox,
+.cake-combobox {
+  max-width: 100%;
+  min-width: 0;
+}
+.cake-combobox {
+  width: 100%;
+}
+.cake-button:disabled {
+  cursor: not-allowed;
+}
+.cake-spinner.module-loading-spinner {
+  flex-shrink: 0;
+}
+.cake-button.primary-button,
+.cake-button.share-button {
+  color: var(--cake-accent-ink);
+}
+.cake-theme .inline-error {
+  color: var(--cake-danger);
+  background: var(--cake-danger-soft);
+  border-radius: var(--cake-radius-small);
+}

@@ -1,0 +1,684 @@
+/* Compact CakeUI composition; no document observer, remote CSS or UI framework runtime. */
+html:not(.pc-plugin):not(.sidepanel) {
+  --popup-scale: 1.2;
+  --popup-width: 560px;
+  --popup-height: 500px;
+  width: calc(var(--popup-width) * var(--popup-scale));
+  height: calc(var(--popup-height) * var(--popup-scale));
+}
+html:not(.pc-plugin):not(.sidepanel) body {
+  width: var(--popup-width);
+  height: var(--popup-height);
+  zoom: var(--popup-scale);
+}
+html:not(.pc-plugin):not(.sidepanel) .popup-shell {
+  height: 100%;
+}
+html:not(.pc-plugin):not(.sidepanel) .job-detail-dialog {
+  width: calc(var(--popup-width) - 16px);
+  height: calc(var(--popup-height) - 16px);
+}
+html:not(.pc-plugin):not(.sidepanel) .settings-dialog {
+  width: calc(var(--popup-width) - 24px);
+  max-height: calc(var(--popup-height) - 80px);
+}
+body.cake-theme {
+  font-size: 13px;
+}
+.popup-shell {
+  background: var(--cake-bg);
+}
+/* Only content panes may shrink; loading and tab changes must not move the frame. */
+.toolbar,
+.workspace-tabs,
+.project-version-tabs,
+.environment-bar,
+.apply-bar,
+.active-panel,
+.status-bar,
+.queue-heading,
+.build-history-heading,
+.build-history-filters,
+.build-history-pagination {
+  flex-shrink: 0;
+}
+.workspace-panel,
+.build-task-panel {
+  flex: 1 1 0;
+  overflow: hidden;
+}
+.toolbar {
+  min-height: 52px;
+  padding: 8px 12px;
+  border: 0;
+  background: var(--cake-surface);
+}
+.toolbar-actions {
+  gap: 5px;
+}
+.tab-state strong {
+  font-size: 14px;
+  font-weight: 650;
+}
+.tab-state span {
+  font-size: 10px;
+}
+.identity-panel {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+.identity-panel strong {
+  max-width: 55px;
+}
+.identity-logout.cake-button {
+  font-size: 10px;
+  padding: 4px 6px;
+  min-height: 28px;
+}
+.toolbar-pill-button.cake-button {
+  padding: 5px 10px;
+}
+.icon-button.cake-button {
+  height: 30px;
+  min-height: 30px;
+  min-width: 30px;
+  width: 30px;
+  font-size: 18px;
+}
+.workspace-tabs {
+  gap: 6px;
+  padding: 7px 12px;
+  border: 0;
+  background: var(--cake-surface);
+}
+.workspace-tab.cake-button {
+  flex: 1;
+  height: 32px;
+  box-shadow: none;
+  background: transparent;
+  padding: 5px 12px;
+}
+.workspace-tabs .workspace-tab.cake-button[aria-selected='true'] {
+  color: var(--cake-accent-ink);
+  background: var(--cake-accent-soft);
+}
+.workspace-tab[aria-selected='true']::after {
+  display: none;
+}
+.workspace-tab-count {
+  background: var(--cake-control);
+  color: var(--cake-accent-ink);
+}
+.project-version-tabs,
+.build-task-tabs {
+  gap: 4px;
+  border: 0;
+  background: transparent;
+  padding: 8px 12px 6px;
+}
+.project-version-tab.cake-button,
+.build-task-tabs .cake-button {
+  box-shadow: none;
+  background: transparent;
+  min-height: 30px;
+  padding: 5px 10px;
+}
+.project-version-tabs .cake-button[aria-selected='true'],
+.build-task-tabs .cake-button[aria-selected='true'],
+.job-detail-tabs .cake-button.active {
+  color: var(--cake-accent-ink);
+  background: var(--cake-accent-soft);
+}
+.project-version-toolbar {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 10px;
+  padding: 8px 12px 6px;
+}
+.workspace-toolbar {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--cake-surface);
+}
+.workspace-toolbar > .workspace-tabs {
+  display: flex;
+  flex: 0 0 auto;
+  width: auto;
+}
+.workspace-toolbar > .project-version-toolbar {
+  flex: 1 1 340px;
+  min-width: 0;
+  padding: 0;
+  gap: 8px;
+}
+.workspace-toolbar .workspace-tabs,
+.workspace-toolbar .project-version-tabs {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: 36px;
+  min-height: 36px;
+  padding: 2px;
+  border-radius: var(--cake-radius-medium);
+  background: var(--cake-hover);
+  gap: 2px;
+}
+.workspace-toolbar .workspace-tab.cake-button,
+.workspace-toolbar .project-version-tab.cake-button {
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  height: 32px;
+  min-height: 32px;
+  margin: 0;
+  border: 0;
+  padding: 0 7px;
+  font-size: 11px;
+  line-height: 16px;
+}
+.project-version-toolbar .project-version-tabs {
+  flex: 0 0 auto;
+}
+.project-version-toolbar .environment-bar {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  gap: 8px;
+}
+.version-context-field {
+  display: flex;
+  align-items: center;
+  flex: 1 1 0;
+  min-width: 0;
+  gap: 5px;
+  font-size: 10px;
+  white-space: nowrap;
+}
+.version-context-field .cake-combobox {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 36px;
+  min-height: 36px;
+  font-size: 11px;
+}
+.environment-bar #site-context-select:disabled {
+  opacity: 1;
+  color: var(--cake-muted);
+}
+
+/* Chrome Side Panel reuses the extension application, but fills the browser-owned column. */
+html:is(.sidepanel, .pc-plugin),
+html:is(.sidepanel, .pc-plugin) body {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+}
+html:is(.sidepanel, .pc-plugin) body {
+  zoom: 1;
+}
+html:is(.sidepanel, .pc-plugin) .popup-shell {
+  width: 100%;
+  min-width: 0;
+  height: 100vh;
+  height: 100dvh;
+}
+html:is(.sidepanel, .pc-plugin) .settings-dialog {
+  width: min(536px, calc(100% - 16px));
+  max-height: calc(100% - 16px);
+  overflow-y: auto;
+}
+html:is(.sidepanel, .pc-plugin) .job-detail-dialog {
+  width: calc(100% - 16px);
+  height: calc(100% - 16px);
+}
+html:is(.sidepanel, .pc-plugin) .settings-heading > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.module-list {
+  display: grid;
+  gap: 7px;
+  padding: 0 10px 10px;
+}
+.module-row {
+  grid-template-columns: minmax(166px, 0.32fr) minmax(180px, 1fr) auto;
+  padding: 8px;
+  gap: 4px 8px;
+  border: 0;
+  border-radius: var(--cake-radius-medium);
+  background: var(--cake-surface);
+}
+.module-heading strong {
+  font-size: 12px;
+  font-weight: 650;
+}
+.module-kind {
+  font-size: 9px;
+}
+.branch-picker-trigger.cake-button {
+  min-height: 34px;
+  height: auto;
+  padding: 6px 9px;
+}
+.branch-picker-trigger-copy {
+  gap: 3px;
+}
+.branch-picker-trigger-value {
+  font-size: 11px;
+}
+.branch-picker-trigger-status {
+  font-size: 9px;
+  font-weight: 500;
+}
+.build-button.cake-button {
+  min-width: 64px;
+  min-height: 32px;
+  font-size: 11px;
+  padding: 5px 8px;
+}
+.module-meta {
+  font-size: 10px;
+}
+.cake-button.queue-job-link {
+  min-height: 0;
+  padding: 0;
+  height: auto;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--cake-warning);
+}
+.apply-bar {
+  margin: 0 10px 4px;
+  padding: 8px 10px;
+  background: var(--cake-surface);
+  border: 0;
+  border-radius: var(--cake-radius-medium);
+}
+.apply-button-wrap {
+  flex-shrink: 0;
+}
+.apply-bar .cake-button {
+  min-height: 34px;
+  padding: 6px 12px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.apply-copy {
+  flex: 1;
+}
+.active-panel {
+  margin: 0 10px 7px;
+  border: 0;
+  border-radius: var(--cake-radius-medium);
+  padding: 10px;
+  background: var(--cake-surface);
+  gap: 10px;
+}
+.active-panel .primary-button {
+  min-width: 112px;
+  min-height: 36px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.active-copy {
+  min-width: 0;
+}
+.active-copy strong {
+  font-size: 12px;
+}
+.status-bar {
+  background: transparent;
+  border: 0;
+  padding: 5px 12px;
+  min-height: 25px;
+}
+.settings-dialog,
+.job-detail-dialog {
+  border: 0;
+  border-radius: var(--cake-radius-large);
+  background: var(--cake-surface);
+  box-shadow: var(--cake-shadow);
+}
+.settings-dialog::backdrop,
+.job-detail-dialog::backdrop {
+  background: var(--cake-backdrop);
+  backdrop-filter: blur(3px);
+}
+.settings-form {
+  gap: 14px;
+  padding: 20px;
+}
+.settings-heading {
+  gap: 16px;
+}
+.settings-heading strong {
+  font-size: 16px;
+  font-weight: 650;
+}
+.settings-heading span {
+  font-size: 11px;
+  margin-top: 3px;
+}
+.settings-form label {
+  font-weight: 550;
+  color: var(--cake-text);
+}
+.settings-form .cake-textbox {
+  height: 36px;
+}
+.share-snapshot,
+.configuration-group-site-versions > div {
+  border: 0;
+  background: var(--cake-bg);
+  border-radius: var(--cake-radius-small);
+  padding: 12px;
+}
+.configuration-delete-copy {
+  border: 0;
+  color: var(--cake-danger);
+  border-radius: var(--cake-radius-small);
+}
+.form-actions {
+  gap: 8px;
+  margin-top: 2px;
+}
+.branch-picker-dropdown {
+  border: 0;
+  border-radius: var(--cake-radius-medium);
+  box-shadow: var(--cake-shadow);
+  background: var(--cake-surface);
+  overflow: hidden;
+}
+.branch-picker-search {
+  border: 0;
+  background: transparent;
+  padding: 10px;
+}
+.branch-picker-list {
+  padding: 0 6px 6px;
+}
+.branch-option.cake-button {
+  display: grid;
+  width: 100%;
+  min-height: 44px;
+  height: auto;
+  padding: 9px;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+  text-align: left;
+  white-space: normal;
+}
+.branch-option[aria-selected='true'] {
+  background: var(--cake-accent-soft);
+}
+.branch-picker-footer {
+  border: 0;
+  padding: 9px 12px;
+  background: var(--cake-bg);
+}
+.queue-section {
+  background: transparent;
+  border: 0;
+}
+.queue-panel,
+.build-history-panel {
+  background: transparent;
+}
+.queue-heading {
+  padding: 10px 12px;
+  background: transparent;
+  border: 0;
+}
+.queue-list {
+  display: grid;
+  grid-auto-rows: max-content;
+  gap: 7px;
+  padding: 0 10px 10px;
+}
+.queue-item {
+  border: 0;
+  border-radius: var(--cake-radius-medium);
+  background: var(--cake-surface);
+  padding: 10px;
+  gap: 10px;
+}
+.queue-item.current-environment {
+  box-shadow: none;
+}
+.queue-job-open.cake-button {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-content: stretch;
+  justify-items: stretch;
+  align-items: start;
+  align-content: start;
+  gap: 4px;
+  padding: 0;
+  height: auto;
+  min-height: 0;
+  box-shadow: none;
+  background: transparent;
+  font-weight: 500;
+}
+.queue-job-heading strong {
+  font-size: 12px;
+}
+.queue-cancel-button.cake-button {
+  align-self: center;
+  margin-right: 0;
+  font-size: 11px;
+  min-height: 30px;
+  padding: 5px 8px;
+}
+.queue-status.cake-badge {
+  font-size: 10px;
+}
+.job-detail-heading {
+  border: 0;
+  padding: 16px;
+}
+.job-detail-tabs {
+  padding: 7px 16px;
+  border: 0;
+  background: var(--cake-bg);
+  gap: 6px;
+}
+.job-detail-tabs .cake-button {
+  box-shadow: none;
+  background: transparent;
+}
+.job-detail-content {
+  padding: 0 16px 16px;
+}
+.job-detail-footer {
+  border: 0;
+  background: var(--cake-bg);
+  padding: 10px 16px;
+}
+.job-timeline,
+.job-command,
+.job-result {
+  border-radius: var(--cake-radius-small);
+}
+.job-console {
+  background: #20262e;
+  color: #edf0f3;
+  border-radius: 0 0 var(--cake-radius-small) var(--cake-radius-small);
+  font-family: var(--cake-mono);
+}
+.build-history-filters {
+  padding: 8px 12px;
+  gap: 7px;
+}
+.build-history-pagination {
+  border: 0;
+  gap: 6px;
+  padding: 8px 12px;
+}
+.build-history-pagination .cake-combobox {
+  width: auto;
+  height: 30px;
+}
+.build-history-pagination .cake-button {
+  font-size: 11px;
+  padding: 5px 7px;
+}
+.requirements-panel {
+  background: transparent;
+}
+.requirements-heading {
+  flex-shrink: 0;
+  padding: 10px 12px;
+  border: 0;
+  background: transparent;
+}
+.requirements-list {
+  /* Keep intrinsic row heights when the list overflows the fixed-size popup. */
+  grid-auto-rows: max-content;
+  gap: 6px;
+  padding: 2px 10px 10px;
+}
+.requirement-row {
+  border: 0;
+  background: var(--cake-surface);
+  border-radius: var(--cake-radius-medium);
+  overflow: hidden;
+}
+.requirement-use.cake-button {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-content: stretch;
+  justify-items: stretch;
+  align-content: start;
+  align-items: start;
+  gap: 3px;
+  height: auto;
+  padding: 8px 12px;
+  box-shadow: none;
+}
+.requirement-title-line {
+  align-items: center;
+}
+.requirement-title-line strong {
+  min-width: 0;
+  color: var(--cake-text);
+  line-height: 1.5;
+}
+.requirement-branches {
+  overflow-wrap: anywhere;
+  font-size: 10px;
+  line-height: 1.5;
+}
+.requirement-meta {
+  display: block;
+  overflow: hidden;
+  font-size: 9px;
+  line-height: 1.5;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.requirement-actions {
+  background: transparent;
+  border: 0;
+  padding: 6px 8px 6px 0;
+}
+.requirement-action.cake-button {
+  font-size: 10px;
+  min-height: 27px;
+  padding: 4px 8px;
+}
+.auth-gate {
+  background: transparent;
+}
+html.pc-plugin .popup-shell {
+  max-width: 860px;
+  margin: auto;
+}
+
+/* Side panels and the PC host are resizable, unlike Chrome's action popup. */
+@media (max-width: 560px) {
+  html:is(.sidepanel, .pc-plugin) .module-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px 8px;
+  }
+  html:is(.sidepanel, .pc-plugin) .module-heading {
+    grid-column: 1 / -1;
+  }
+  html:is(.sidepanel, .pc-plugin) .project-version-toolbar {
+    flex-wrap: wrap;
+  }
+  html:is(.sidepanel, .pc-plugin) .environment-bar {
+    flex-basis: 220px;
+  }
+  html:is(.sidepanel, .pc-plugin) .build-history-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  html:is(.sidepanel, .pc-plugin) .build-history-query {
+    grid-column: 1 / -1;
+  }
+  html:is(.sidepanel, .pc-plugin) .build-history-pagination {
+    flex-wrap: wrap;
+  }
+  html:is(.sidepanel, .pc-plugin) .job-detail-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  html:is(.sidepanel, .pc-plugin) .job-summary-status {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 8px;
+  }
+  html:is(.sidepanel, .pc-plugin) .job-detail-footer {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  html:is(.sidepanel, .pc-plugin) .settings-form {
+    padding: 14px;
+    gap: 12px;
+  }
+  html:is(.sidepanel, .pc-plugin) .form-actions {
+    flex-wrap: wrap;
+  }
+  html:is(.sidepanel, .pc-plugin) .active-panel {
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 400px) {
+  html:is(.sidepanel, .pc-plugin) .toolbar {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  html:is(.sidepanel, .pc-plugin) .tab-state {
+    flex-basis: 100%;
+  }
+  html:is(.sidepanel, .pc-plugin) .toolbar-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  html:is(.sidepanel, .pc-plugin) .identity-panel {
+    margin-right: auto;
+  }
+  html:is(.sidepanel, .pc-plugin) .identity-panel strong {
+    max-width: 90px;
+  }
+  html:is(.sidepanel, .pc-plugin) .requirement-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  html:is(.sidepanel, .pc-plugin) .requirement-actions {
+    justify-content: flex-end;
+    padding: 0 8px 8px;
+  }
+  html:is(.sidepanel, .pc-plugin) .apply-bar {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}

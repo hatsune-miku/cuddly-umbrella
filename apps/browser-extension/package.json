@@ -1,0 +1,11 @@
+{
+  "name": "@cuddly/browser-extension",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync:product-name": "node scripts/sync-product-name.mjs",
+    "build": "pnpm sync:product-name && node ../console/scripts/build-cake-ui.mjs && node scripts/validate.mjs",
+    "test": "pnpm sync:product-name && node --test scripts/cakeui-dom.node.mjs scripts/service-worker.lifecycle.mjs scripts/in-place-hot-module.node.mjs scripts/in-place-url-rules.node.mjs scripts/preview-routing.node.mjs scripts/auth-session.node.mjs scripts/popup-state.node.mjs scripts/popup-tabs.node.mjs scripts/configuration-groups.node.mjs scripts/extension-protocol.node.mjs scripts/branch-picker.node.mjs scripts/build-queue.node.mjs scripts/build-history.node.mjs scripts/binding-selection.node.mjs scripts/environment-selection.node.mjs scripts/config-share.node.mjs",
+    "typecheck": "pnpm sync:product-name && node scripts/validate.mjs"
+  }
+}

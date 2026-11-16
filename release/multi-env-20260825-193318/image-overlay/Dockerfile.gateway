@@ -1,0 +1,2 @@
+FROM cuddly-gateway:pre-multi-env-20260825-193318
+COPY apps/gateway/dist/main.js /app/apps/gateway/dist/main.js

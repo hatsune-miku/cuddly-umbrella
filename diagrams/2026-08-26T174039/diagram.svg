@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1120" viewBox="0 0 1800 1120" role="img" aria-labelledby="title description" font-family="Noto Sans SC, Microsoft YaHei, sans-serif">
+  <title id="title">Bifrost 流量转发结构图</title>
+  <desc id="description">展示浏览器扩展、Nginx、Bifrost Gateway、Artifact、官方前端、环境后端、热更和资源代理之间的流量关系。</desc>
+
+  <rect width="1800" height="1120" fill="#07131f" />
+  <path d="M0 272 H1800" stroke="#1d3446" stroke-width="2" />
+
+  <text x="70" y="72" fill="#f5fbff" font-size="38" font-weight="700">Bifrost 如何转发一条 QA 预览流量</text>
+  <text x="70" y="112" fill="#8ba7ba" font-size="20">控制面只决定“精确选择”；数据面按 Host + 标签页 Token 路由，不存在公共发布覆盖</text>
+
+  <!-- Control plane -->
+  <text x="70" y="175" fill="#67d7ff" font-size="17" font-weight="700" letter-spacing="2">CONTROL PLANE · 不承载业务请求</text>
+  <rect x="70" y="196" width="260" height="56" rx="16" fill="#102838" stroke="#2a526a" />
+  <text x="100" y="230" fill="#e8f7ff" font-size="18" font-weight="600">Console / 浏览器扩展</text>
+  <polyline points="330,224 380,224" fill="none" stroke="#58c8ed" stroke-width="3" />
+  <polygon points="380,218 392,224 380,230" fill="#58c8ed" />
+  <rect x="392" y="196" width="210" height="56" rx="16" fill="#113449" stroke="#2f6a87" />
+  <text x="439" y="230" fill="#e8f7ff" font-size="18" font-weight="600">Control API</text>
+  <polyline points="602,224 650,224" fill="none" stroke="#58c8ed" stroke-width="3" />
+  <polygon points="650,218 662,224 650,230" fill="#58c8ed" />
+  <ellipse cx="755" cy="224" rx="93" ry="32" fill="#132f45" stroke="#39799b" />
+  <text x="707" y="230" fill="#e8f7ff" font-size="17" font-weight="600">PostgreSQL</text>
+  <text x="870" y="208" fill="#8ba7ba" font-size="14">SiteBinding · Environment</text>
+  <text x="870" y="232" fill="#8ba7ba" font-size="14">Preview(Token → Artifact IDs)</text>
+  <rect x="1160" y="196" width="210" height="56" rx="16" fill="#211f4c" stroke="#6d62c4" />
+  <text x="1192" y="230" fill="#f0edff" font-size="16" font-weight="600">Runner / 打包嘟嘟</text>
+  <polyline points="1370,224 1420,224" fill="none" stroke="#9d91ff" stroke-width="3" />
+  <polygon points="1420,218 1432,224 1420,230" fill="#9d91ff" />
+  <rect x="1432" y="188" width="285" height="72" rx="18" fill="#26204e" stroke="#7c70d9" />
+  <text x="1482" y="216" fill="#f3efff" font-size="17" font-weight="700">Artifact Store</text>
+  <text x="1467" y="242" fill="#aaa2e6" font-size="14">不可变页面包 / Remote 包</text>
+
+  <!-- Browser -->
+  <text x="70" y="326" fill="#67d7ff" font-size="17" font-weight="700" letter-spacing="2">DATA PLANE</text>
+  <rect x="70" y="358" width="315" height="436" rx="28" fill="#0d2230" stroke="#31576b" stroke-width="2" />
+  <rect x="70" y="358" width="315" height="54" rx="28" fill="#142f3f" />
+  <circle cx="101" cy="385" r="7" fill="#ff7a7a" />
+  <circle cx="126" cy="385" r="7" fill="#f9c74f" />
+  <circle cx="151" cy="385" r="7" fill="#5dd39e" />
+  <text x="94" y="451" fill="#f5fbff" font-size="25" font-weight="700">浏览器标签页</text>
+  <text x="94" y="484" fill="#8ba7ba" font-size="16">main / m.bifrost.vanillacake.cn</text>
+  <rect x="94" y="520" width="267" height="92" rx="18" fill="#12374b" stroke="#2f7494" />
+  <text x="116" y="552" fill="#74dcff" font-size="16" font-weight="700">浏览器扩展只做两件事</text>
+  <text x="116" y="580" fill="#d7edf7" font-size="15">① 导航到预览域</text>
+  <text x="116" y="603" fill="#d7edf7" font-size="15">② 当前标签页附加 Preview Token</text>
+  <rect x="94" y="638" width="267" height="126" rx="18" fill="#0a1924" stroke="#253f50" />
+  <text x="116" y="671" fill="#b9d1df" font-size="15" font-weight="600">浏览器可观察状态</text>
+  <text x="112" y="701" fill="#829cab" font-size="13">Cookie / localStorage / Service Worker</text>
+  <text x="116" y="727" fill="#829cab" font-size="14">DOM / API 结果 / WebSocket / RTC</text>
+  <text x="116" y="753" fill="#829cab" font-size="14">这些仍受 Origin 与时序影响</text>
+
+  <!-- Browser to edge -->
+  <polyline points="385,486 444,486" fill="none" stroke="#65d8ff" stroke-width="4" />
+  <polygon points="444,478 460,486 444,494" fill="#65d8ff" />
+  <text x="397" y="467" fill="#7fcce5" font-size="13">HTTPS</text>
+
+  <!-- Edge -->
+  <path d="M460 399 L548 358 L636 399 L636 548 C636 603 596 645 548 664 C500 645 460 603 460 548 Z" fill="#103246" stroke="#3c8cae" stroke-width="3" />
+  <text x="501" y="422" fill="#e9f9ff" font-size="20" font-weight="700">Nginx</text>
+  <text x="505" y="449" fill="#8ec9df" font-size="14">DNS / TLS</text>
+  <path d="M493 473 H603" stroke="#2e6680" stroke-width="2" />
+  <text x="493" y="508" fill="#d8edf6" font-size="15">保留 Host</text>
+  <text x="493" y="535" fill="#d8edf6" font-size="15">标记 HTTPS</text>
+  <text x="493" y="562" fill="#d8edf6" font-size="15">转发客户端 IP</text>
+  <text x="493" y="604" fill="#7896a7" font-size="13">127.0.0.1:9872</text>
+
+  <polyline points="636,486 687,486" fill="none" stroke="#65d8ff" stroke-width="4" />
+  <polygon points="687,478 703,486 687,494" fill="#65d8ff" />
+
+  <!-- Gateway core -->
+  <rect x="703" y="326" width="414" height="528" rx="34" fill="#0f2635" stroke="#2d6077" stroke-width="2" />
+  <circle cx="758" cy="381" r="25" fill="#174761" stroke="#54c8ed" />
+  <path d="M746 381 H770 M758 369 V393" stroke="#bcefff" stroke-width="3" />
+  <text x="802" y="389" fill="#f5fbff" font-size="25" font-weight="700">Bifrost Gateway</text>
+  <text x="744" y="434" fill="#64d6ff" font-size="16" font-weight="700">1 · 解析请求上下文</text>
+  <rect x="744" y="452" width="332" height="66" rx="16" fill="#0a1b26" stroke="#294554" />
+  <text x="766" y="479" fill="#d5e9f2" font-size="15">Host → SiteBinding</text>
+  <text x="766" y="503" fill="#d5e9f2" font-size="15">Token → Environment + 精确 Artifact</text>
+  <text x="744" y="555" fill="#64d6ff" font-size="16" font-weight="700">2 · 按路径分流</text>
+
+  <circle cx="770" cy="590" r="8" fill="#9b8cff" />
+  <text x="793" y="596" fill="#e9e4ff" font-size="15">页面 / 静态资源</text>
+  <text x="1016" y="596" fill="#a59fc2" font-size="13" text-anchor="end">Artifact 或官方前端</text>
+  <circle cx="770" cy="630" r="8" fill="#57d39b" />
+  <text x="793" y="636" fill="#ddfaec" font-size="15">/api · /mis · 写请求</text>
+  <text x="1016" y="636" fill="#91b9a7" font-size="13" text-anchor="end">环境后端</text>
+  <circle cx="770" cy="670" r="8" fill="#f1be58" />
+  <text x="793" y="676" fill="#fff0cd" font-size="15">配置的 CDN 前缀</text>
+  <text x="1016" y="676" fill="#c5aa73" font-size="13" text-anchor="end">Resource Proxy</text>
+  <circle cx="770" cy="710" r="8" fill="#ef72aa" />
+  <text x="793" y="716" fill="#ffe4f0" font-size="15">hot-module</text>
+  <text x="1016" y="716" fill="#c996ad" font-size="13" text-anchor="end">官方响应 + 精确覆盖</text>
+
+  <rect x="744" y="754" width="332" height="70" rx="16" fill="#112e32" stroke="#286469" />
+  <text x="766" y="781" fill="#92e7ce" font-size="14" font-weight="700">Fail closed</text>
+  <text x="766" y="806" fill="#b8d9d1" font-size="13">无效 Token / 缺失 Artifact → 404 / 410</text>
+
+  <!-- Endpoints -->
+  <rect x="1240" y="324" width="490" height="112" rx="24" fill="#241f4a" stroke="#7569ce" stroke-width="2" />
+  <text x="1272" y="358" fill="#b9adff" font-size="15" font-weight="700">A · 页面与静态资源</text>
+  <text x="1272" y="389" fill="#f5f2ff" font-size="20" font-weight="700">精确 Artifact</text>
+  <text x="1272" y="416" fill="#aca5d3" font-size="14">页面包 / RemoteEntry / chunks 均从本机磁盘读取</text>
+
+  <rect x="1240" y="458" width="490" height="112" rx="24" fill="#102f43" stroke="#397b9d" stroke-width="2" />
+  <text x="1272" y="492" fill="#82d9ff" font-size="15" font-weight="700">B · 未选择页面包</text>
+  <text x="1272" y="523" fill="#eefaff" font-size="20" font-weight="700">官方前端 www / m.kookapp.cn</text>
+  <text x="1272" y="550" fill="#8fb1c3" font-size="14">始终走公网；环境切换不改变页面来源</text>
+
+  <rect x="1240" y="592" width="490" height="112" rx="24" fill="#10372f" stroke="#3c9c77" stroke-width="2" />
+  <text x="1272" y="626" fill="#76e1b2" font-size="15" font-weight="700">C · 后端 API</text>
+  <text x="1272" y="657" fill="#effff7" font-size="20" font-weight="700">Environment.backendOrigin</text>
+  <text x="1272" y="684" fill="#95c7b0" font-size="14">线上直连；内网环境可经 Mihomo 转发</text>
+
+  <rect x="1240" y="726" width="490" height="112" rx="24" fill="#432f16" stroke="#c58b3d" stroke-width="2" />
+  <text x="1272" y="760" fill="#ffd07a" font-size="15" font-weight="700">D · 外部资源</text>
+  <text x="1272" y="791" fill="#fff8e9" font-size="20" font-weight="700">Allowlist CDN / Resource Proxy</text>
+  <text x="1272" y="818" fill="#c9b58f" font-size="14">仅 GET/HEAD；凭据不转发；CSS/SVG/Manifest 可重写</text>
+
+  <!-- Route lines -->
+  <polyline points="1117,590 1174,590 1174,380 1240,380" fill="none" stroke="#9b8cff" stroke-width="4" />
+  <polygon points="1226,372 1240,380 1226,388" fill="#9b8cff" />
+  <polyline points="1117,604 1194,604 1194,514 1240,514" fill="none" stroke="#5ba8ca" stroke-width="3" />
+  <polygon points="1226,506 1240,514 1226,522" fill="#5ba8ca" />
+  <polyline points="1117,630 1214,630 1214,648 1240,648" fill="none" stroke="#57d39b" stroke-width="4" />
+  <polygon points="1226,640 1240,648 1226,656" fill="#57d39b" />
+  <polyline points="1117,670 1184,670 1184,782 1240,782" fill="none" stroke="#f1be58" stroke-width="4" />
+  <polygon points="1226,774 1240,782 1226,790" fill="#f1be58" />
+  <polyline points="1117,710 1208,710 1208,405 1510,405 1510,324" fill="none" stroke="#ef72aa" stroke-width="3" stroke-dasharray="9 7" />
+
+  <!-- Response transform rail -->
+  <rect x="460" y="886" width="1270" height="110" rx="26" fill="#0c1d29" stroke="#294555" />
+  <text x="492" y="920" fill="#69d7ff" font-size="16" font-weight="700">可证明的传输不变量（安全子集）</text>
+  <text x="492" y="951" fill="#d4e7f0" font-size="14">Method / Path / Query / Body 保留</text>
+  <text x="800" y="951" fill="#d4e7f0" font-size="14">未选 hot-module 与官方元数据保留</text>
+  <text x="1190" y="951" fill="#d4e7f0" font-size="14">缺失静态资源不回退混用</text>
+  <text x="492" y="977" fill="#7f9bab" font-size="13">允许的基础设施映射：Host · Origin · Referer · Cookie Domain · Location · Public Path</text>
+
+  <!-- Bypass and exception -->
+  <polyline points="244,794 244,1030 1510,1030 1510,838" fill="none" stroke="#71889a" stroke-width="3" stroke-dasharray="10 10" />
+  <polygon points="1502,852 1510,838 1518,852" fill="#71889a" />
+  <text x="560" y="1054" fill="#8198a8" font-size="14">WebSocket / RTC 等由官网返回地址时可直接绕过 Gateway</text>
+
+  <path d="M1088 856 L1122 856 L1139 886 L1122 916 L1088 916 L1071 886 Z" fill="#103d35" stroke="#4fd1a1" stroke-width="2" />
+  <text x="1105" y="893" fill="#d9fff1" font-size="22" text-anchor="middle" font-weight="700">✓</text>
+  <text x="1160" y="875" fill="#6ee7b7" font-size="14" font-weight="700">Online H5 已停止注入 legacy k-inject.js</text>
+  <text x="1160" y="899" fill="#9bcfbd" font-size="13">兼容路由暂留；旧标签页刷新后生效</text>
+
+  <text x="70" y="1092" fill="#668092" font-size="12">静态快照：2026-08-26 · 当前线上 SiteBinding 为 main 与 m；配置变化后应重新审计</text>
+</svg>

@@ -1,0 +1,2 @@
+FROM cuddly-control-api:pre-branch-picker-cancel-20260825-181802
+COPY apps/control-api/dist/main.js /app/apps/control-api/dist/main.js

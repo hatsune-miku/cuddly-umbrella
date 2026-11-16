@@ -1,0 +1,21 @@
+{
+  "name": "@cuddly/build-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "build": "tsup --config tsup.config.ts",
+    "start": "node dist/main.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@cuddly/contracts": "workspace:*",
+    "@cuddly/db": "workspace:*",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.3",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2"
+  }
+}

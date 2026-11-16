@@ -1,0 +1,65 @@
+{
+  "manifest_version": 3,
+  "minimum_chrome_version": "116",
+  "name": "Bifrost",
+  "short_name": "Bifrost",
+  "description": "为当前 KOOK 标签页选择独立的页面与热更打包产物",
+  "version": "0.12.10",
+  "action": {},
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.kookapp.cn/*",
+        "https://*.dev.chuanyuapp.com/*",
+        "http://*.dev.chuanyuapp.com/*",
+        "https://localhost/*",
+        "http://localhost/*"
+      ],
+      "js": ["in-place-hot-module-main.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "https://*.kookapp.cn/*",
+        "https://*.dev.chuanyuapp.com/*",
+        "http://*.dev.chuanyuapp.com/*",
+        "https://localhost/*",
+        "http://localhost/*"
+      ],
+      "js": ["in-place-hot-module-bridge.js"],
+      "run_at": "document_start",
+      "world": "ISOLATED"
+    }
+  ],
+  "permissions": [
+    "activeTab",
+    "alarms",
+    "tabs",
+    "storage",
+    "scripting",
+    "sidePanel",
+    "declarativeNetRequestWithHostAccess"
+  ],
+  "host_permissions": [
+    "https://www.kookapp.cn/*",
+    "https://tttt-www.dev.chuanyuapp.com/*",
+    "https://*.kookapp.cn/*",
+    "https://*.dev.chuanyuapp.com/*",
+    "http://*.dev.chuanyuapp.com/*",
+    "https://bifrost.vanillacake.cn/*",
+    "https://bifrost-api.vanillacake.cn/*",
+    "https://*.bifrost.vanillacake.cn/*",
+    "http://localhost/*",
+    "https://localhost/*",
+    "http://127.0.0.1/*"
+  ],
+  "optional_host_permissions": ["https://*/*", "http://*/*"]
+}

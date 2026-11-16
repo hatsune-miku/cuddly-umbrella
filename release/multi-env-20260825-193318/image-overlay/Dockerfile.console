@@ -1,0 +1,3 @@
+FROM cuddly-console:pre-multi-env-20260825-193318
+COPY apps/console/dist/ /usr/share/nginx/html/
+RUN chmod -R a+rX /usr/share/nginx/html

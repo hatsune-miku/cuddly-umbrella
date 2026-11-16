@@ -1,0 +1,16 @@
+{
+  "id": "cuddly",
+  "name": "Bifrost",
+  "description": "为 KOOK 前端研发与 QA 提供分支打包、隔离预览和热更切换",
+  "author": "guanzhen",
+  "runtime": "none",
+  "tags": ["KOOK", "QA", "前端", "构建"],
+  "components": [
+    {
+      "kind": "web",
+      "label": "网站",
+      "platforms": {},
+      "entry": "https://bifrost.vanillacake.cn/"
+    }
+  ]
+}

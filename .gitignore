@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env
+.env.local
+*.log
+coverage/
+data/
+secrets/
+.pnpm-store/
+apps/console/.vite/
+apps/console/playwright-report/
+apps/console/test-results/
+release/.tmp-extension-profile*/
+dist-kfc/

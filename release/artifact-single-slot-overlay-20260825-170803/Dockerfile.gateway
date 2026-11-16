@@ -1,0 +1,2 @@
+FROM cuddly-gateway:pre-artifact-single-slot-20260825-170803
+COPY apps/gateway/dist/main.js /app/apps/gateway/dist/main.js

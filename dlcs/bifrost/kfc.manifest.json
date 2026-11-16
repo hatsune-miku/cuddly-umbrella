@@ -1,0 +1,23 @@
+{
+  "id": "kook-plugin-tools-bifrost",
+  "name": "Bifrost",
+  "description": "PC 原地热更、需求配置与构建队列",
+  "author": "rin",
+  "runtime": "none",
+  "resourceType": "dlc",
+  "dlc": {
+    "hostId": "kook-plugin-tools",
+    "apiVersion": 1,
+    "minHostVersion": "1.1.0",
+    "maxHostVersionExclusive": "2.0.0"
+  },
+  "tags": ["KOOK", "DLC"],
+  "components": [
+    {
+      "kind": "archive",
+      "platforms": {
+        "windows-x64": { "artifact": "kook-plugin-tools-bifrost_{version}_windows-x64.zip" }
+      }
+    }
+  ]
+}

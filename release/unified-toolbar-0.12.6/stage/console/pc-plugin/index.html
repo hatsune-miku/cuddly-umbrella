@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bifrost PC</title>
+    <link rel="stylesheet" href="popup.css" />
+    <link rel="stylesheet" href="cakeui.css" />
+    <link rel="stylesheet" href="cakeui-theme.css" />
+    <link rel="stylesheet" href="cake-layout.css" />
+  </head>
+  <body>
+    <main class="popup-shell">
+      <header class="toolbar">
+        <div class="tab-state">
+          <strong id="page-title">当前标签页</strong>
+          <span id="page-meta">正在读取页面</span>
+        </div>
+        <div class="toolbar-actions">
+          <div id="identity-panel" class="identity-panel" hidden>
+            <span
+              id="identity-avatar-fallback"
+              class="identity-avatar-fallback"
+              aria-hidden="true"
+            ></span>
+            <img id="identity-avatar" class="identity-avatar" alt="" hidden />
+            <strong id="identity-name"></strong>
+            <button id="logout-button" class="identity-logout" type="button">退出</button>
+          </div>
+          <button
+            id="share-button"
+            class="toolbar-pill-button share-button"
+            type="button"
+            title="创建并复制配置组链接"
+          >
+            <span>分享</span>
+          </button>
+          <button
+            id="refresh-button"
+            class="icon-button"
+            type="button"
+            title="刷新"
+            aria-label="刷新"
+          >
+            <span aria-hidden="true">↻</span>
+          </button>
+          <button
+            id="settings-button"
+            class="icon-button"
+            type="button"
+            title="连接设置"
+            aria-label="连接设置"
+          >
+            <span aria-hidden="true">⋯</span>
+          </button>
+        </div>
+      </header>
+
+      <dialog id="settings-dialog" class="settings-dialog" aria-labelledby="settings-title">
+        <form id="settings-form" class="settings-form">
+          <div class="settings-heading">
+            <div>
+              <strong id="settings-title">连接设置</strong>
+              <span>通常无需修改</span>
+            </div>
+            <button
+              id="settings-close"
+              class="icon-button compact-icon"
+              type="button"
+              title="关闭"
+              aria-label="关闭连接设置"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <label>
+            <span>控制台地址</span>
+            <input id="control-origin" type="url" required />
+          </label>
+          <div class="form-actions">
+            <button id="settings-cancel" class="text-button" type="button">取消</button>
+            <button class="primary-button" type="submit">保存</button>
+          </div>
+        </form>
+      </dialog>
+
+      <dialog id="share-dialog" class="settings-dialog share-dialog" aria-labelledby="share-title">
+        <form id="share-form" class="settings-form share-form">
+          <div class="settings-heading">
+            <div>
+              <strong id="share-title">分享当前配置</strong>
+              <span>创建可持续维护的提测配置组</span>
+            </div>
+            <button
+              id="share-close"
+              class="icon-button compact-icon"
+              type="button"
+              title="关闭"
+              aria-label="关闭分享配置"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <label>
+            <span>配置组名称</span>
+            <input
+              id="share-name"
+              type="text"
+              maxlength="80"
+              placeholder="例如：语音频道 XX 需求"
+              autocomplete="off"
+              required
+            />
+          </label>
+          <label>
+            <span>URL 前缀（可选）</span>
+            <input
+              id="share-url-prefix"
+              type="text"
+              maxlength="63"
+              placeholder="例如：party-week 或 中文需求"
+              autocomplete="off"
+              spellcheck="false"
+              aria-describedby="share-url-hint"
+            />
+            <small id="share-url-hint" class="share-url-hint" aria-live="polite">
+              留空时由系统生成不可猜测的独立地址
+            </small>
+          </label>
+          <div class="share-snapshot" aria-live="polite">
+            <strong id="share-context">正在读取当前选择</strong>
+            <span id="share-caveat"></span>
+          </div>
+          <label id="share-result-field" class="share-result-field" hidden>
+            <span>配置组链接</span>
+            <input id="share-result" type="url" readonly />
+          </label>
+          <div class="form-actions">
+            <button id="share-cancel" class="text-button" type="button">取消</button>
+            <button id="share-submit" class="primary-button" type="submit">创建并复制</button>
+          </div>
+        </form>
+      </dialog>
+
+      <dialog
+        id="configuration-group-edit-dialog"
+        class="settings-dialog configuration-group-dialog"
+        aria-labelledby="configuration-group-edit-title"
+      >
+        <form id="configuration-group-edit-form" class="settings-form configuration-group-form">
+          <div class="settings-heading">
+            <div>
+              <strong id="configuration-group-edit-title">编辑需求</strong>
+              <span id="configuration-group-edit-context">保留原分享链接</span>
+            </div>
+            <button
+              id="configuration-group-edit-close"
+              class="icon-button compact-icon"
+              type="button"
+              title="关闭"
+              aria-label="关闭需求编辑"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <label>
+            <span>需求名称</span>
+            <input
+              id="configuration-group-edit-name"
+              type="text"
+              maxlength="80"
+              autocomplete="off"
+              required
+            />
+          </label>
+          <label class="configuration-overwrite-option">
+            <input id="configuration-group-overwrite" type="checkbox" />
+            <span>
+              <strong>以当前环境和分支覆盖内容</strong>
+              <small id="configuration-group-overwrite-hint"></small>
+            </span>
+          </label>
+          <div class="form-actions">
+            <button id="configuration-group-edit-cancel" class="text-button" type="button">
+              取消
+            </button>
+            <button id="configuration-group-edit-submit" class="primary-button" type="submit">
+              保存
+            </button>
+          </div>
+        </form>
+      </dialog>
+
+      <dialog
+        id="configuration-group-delete-dialog"
+        class="settings-dialog configuration-group-dialog"
+        aria-labelledby="configuration-group-delete-title"
+      >
+        <form id="configuration-group-delete-form" class="settings-form configuration-group-form">
+          <div class="settings-heading">
+            <div>
+              <strong id="configuration-group-delete-title">删除需求</strong>
+              <span>分享链接将立即失效</span>
+            </div>
+            <button
+              id="configuration-group-delete-close"
+              class="icon-button compact-icon"
+              type="button"
+              title="关闭"
+              aria-label="关闭删除确认"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <p id="configuration-group-delete-copy" class="configuration-delete-copy"></p>
+          <div class="form-actions">
+            <button id="configuration-group-delete-cancel" class="text-button" type="button">
+              取消
+            </button>
+            <button
+              id="configuration-group-delete-submit"
+              class="primary-button danger-button"
+              type="submit"
+            >
+              确认删除
+            </button>
+          </div>
+        </form>
+      </dialog>
+
+      <dialog
+        id="configuration-group-site-dialog"
+        class="settings-dialog configuration-group-site-dialog"
+        aria-labelledby="configuration-group-site-title"
+      >
+        <form
+          id="configuration-group-site-form"
+          class="settings-form configuration-group-site-form"
+        >
+          <div class="settings-heading">
+            <div>
+              <strong id="configuration-group-site-title">是否切换本体版本？</strong>
+              <span>当前页面不能直接替换本体</span>
+            </div>
+            <button
+              id="configuration-group-site-close"
+              class="icon-button compact-icon"
+              type="button"
+              title="关闭"
+              aria-label="取消应用需求"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <p class="configuration-group-site-copy">
+            这个需求同时指定了本体和热更版本。你可以留在当前页面仅切换热更，或前往预览站点完整应用。
+          </p>
+          <dl class="configuration-group-site-versions">
+            <div>
+              <dt>当前</dt>
+              <dd id="configuration-group-site-current">官方原版</dd>
+            </div>
+            <div>
+              <dt>目标</dt>
+              <dd id="configuration-group-site-target"></dd>
+            </div>
+          </dl>
+          <div class="form-actions configuration-group-site-actions">
+            <button id="configuration-group-site-cancel" class="text-button" type="button">
+              取消
+            </button>
+            <button id="configuration-group-site-remote" class="secondary-button" type="button">
+              仅切热更
+            </button>
+            <button id="configuration-group-site-complete" class="primary-button" type="submit">
+              切热更和本体
+            </button>
+          </div>
+        </form>
+      </dialog>
+
+      <section
+        id="branch-picker-dropdown"
+        class="branch-picker-dropdown"
+        aria-label="选择分支"
+        hidden
+      >
+        <div class="branch-picker-panel">
+          <label class="branch-picker-search">
+            <span class="visually-hidden">搜索分支</span>
+            <input
+              id="branch-picker-search"
+              type="search"
+              placeholder="输入分支名"
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </label>
+          <div
+            id="branch-picker-list"
+            class="branch-picker-list"
+            role="listbox"
+            aria-label="可选分支"
+          ></div>
+          <footer class="branch-picker-footer">
+            <span id="branch-picker-count"></span>
+          </footer>
+        </div>
+      </section>
+
+      <dialog id="job-detail-dialog" class="job-detail-dialog" aria-labelledby="job-detail-title">
+        <section class="job-detail-panel">
+          <header class="job-detail-heading">
+            <div>
+              <strong id="job-detail-title">构建任务</strong>
+              <span id="job-detail-context">正在读取任务</span>
+            </div>
+            <button
+              id="job-detail-close"
+              class="icon-button compact-icon"
+              type="button"
+              title="关闭"
+              aria-label="关闭任务详情"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </header>
+          <nav class="job-detail-tabs" role="tablist" aria-label="任务详情分类">
+            <button
+              id="job-overview-tab"
+              type="button"
+              role="tab"
+              aria-controls="job-detail-content"
+              data-tab="overview"
+              class="active"
+            >
+              概览
+            </button>
+            <button
+              id="job-log-tab"
+              type="button"
+              role="tab"
+              aria-controls="job-detail-content"
+              data-tab="log"
+            >
+              控制台
+            </button>
+          </nav>
+          <div id="job-detail-content" class="job-detail-content" role="tabpanel"></div>
+          <footer class="job-detail-footer">
+            <span id="job-detail-refresh-hint">任务进行中会自动刷新</span>
+            <span class="job-detail-footer-actions">
+              <button id="job-detail-retry" class="retry-build-button" type="button" hidden>
+                重试构建
+              </button>
+              <button id="job-detail-cancel" class="cancel-build-button" type="button" hidden>
+                中断构建
+              </button>
+            </span>
+          </footer>
+        </section>
+      </dialog>
+
+      <section id="auth-gate" class="auth-gate" aria-labelledby="auth-gate-title">
+        <div class="auth-gate-copy">
+          <strong id="auth-gate-title">使用飞书账号继续</strong>
+          <span id="auth-gate-hint">正在检查登录状态</span>
+        </div>
+        <button id="login-button" class="primary-button auth-login-button" type="button" disabled>
+          使用飞书登录
+        </button>
+      </section>
+
+      <div id="workspace-toolbar" class="workspace-toolbar" hidden>
+        <nav id="workspace-tabs" class="workspace-tabs" role="tablist" aria-label="扩展功能" hidden>
+          <button
+            id="projects-tab"
+            class="workspace-tab active"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="projects-panel"
+            tabindex="0"
+          >
+            项目版本
+          </button>
+          <button
+            id="queue-tab"
+            class="workspace-tab"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="queue-panel"
+            tabindex="-1"
+          >
+            <span>构建队列</span>
+            <strong id="queue-tab-count">0</strong>
+          </button>
+        </nav>
+        <div class="project-version-toolbar">
+          <nav
+            id="project-version-tabs"
+            class="project-version-tabs"
+            role="tablist"
+            aria-label="项目版本选择方式"
+          >
+            <button
+              id="requirements-tab"
+              class="project-version-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="requirements-panel"
+              tabindex="-1"
+            >
+              按需求
+            </button>
+            <button
+              id="branches-tab"
+              class="project-version-tab active"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="branches-panel"
+              tabindex="0"
+            >
+              按分支
+            </button>
+          </nav>
+
+          <section id="environment-bar" class="environment-bar" aria-label="环境与端">
+            <label class="version-context-field">
+              <span>环境</span>
+              <select
+                id="environment-select"
+                aria-label="预览环境"
+                aria-describedby="environment-hint"
+              ></select>
+            </label>
+            <label class="version-context-field" title="端由当前标签页自动识别，切换页面后自动更新">
+              <span>端</span>
+              <select id="site-context-select" aria-label="当前端（自动识别）" disabled>
+                <option>正在识别</option>
+              </select>
+            </label>
+            <span id="environment-hint" class="sr-only"></span>
+          </section>
+        </div>
+        <nav class="project-version-tabs build-task-tabs" role="tablist" aria-label="构建任务视图">
+          <button
+            id="build-queue-tab"
+            class="project-version-tab active"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="build-queue-panel"
+            tabindex="0"
+          >
+            当前队列
+          </button>
+          <button
+            id="build-history-tab"
+            class="project-version-tab"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="build-history-panel"
+            tabindex="-1"
+          >
+            构建记录
+          </button>
+        </nav>
+      </div>
+
+      <section
+        id="projects-panel"
+        class="workspace-panel projects-panel"
+        role="tabpanel"
+        aria-labelledby="projects-tab"
+        hidden
+      >
+        <section
+          id="requirements-panel"
+          class="project-version-panel requirements-panel"
+          role="tabpanel"
+          aria-labelledby="requirements-tab"
+          hidden
+        >
+          <header class="requirements-heading">
+            <div>
+              <strong>提测需求</strong>
+              <span id="requirements-summary">正在读取</span>
+            </div>
+            <button id="requirements-refresh" class="text-button" type="button">刷新</button>
+          </header>
+          <div id="requirements-list" class="requirements-list" aria-live="polite"></div>
+        </section>
+
+        <section
+          id="branches-panel"
+          class="project-version-panel branches-panel"
+          role="tabpanel"
+          aria-labelledby="branches-tab"
+        >
+          <section id="active-panel" class="active-panel" hidden>
+            <div>
+              <strong id="active-title">此标签页正在预览</strong>
+              <span id="active-summary"></span>
+            </div>
+            <button id="remove-button" class="text-button danger-text" type="button">停用</button>
+          </section>
+
+          <div class="workspace-scroll projects-scroll">
+            <section id="module-list" class="module-list" aria-label="页面与热更版本"></section>
+          </div>
+
+          <section id="apply-bar" class="apply-bar">
+            <div class="apply-copy">
+              <span>标签页版本</span>
+              <strong id="selection-summary">全部使用官网版本</strong>
+            </div>
+            <span id="apply-button-wrap" class="apply-button-wrap">
+              <button id="apply-button" class="primary-button" type="button" disabled>应用</button>
+            </span>
+          </section>
+        </section>
+      </section>
+
+      <section
+        id="queue-panel"
+        class="workspace-panel queue-panel"
+        role="tabpanel"
+        aria-labelledby="queue-tab"
+        hidden
+      >
+        <section
+          id="build-queue-panel"
+          class="build-task-panel"
+          role="tabpanel"
+          aria-labelledby="build-queue-tab"
+        >
+          <header class="queue-heading">
+            <div class="queue-heading-copy">
+              <div class="queue-title">
+                <strong id="queue-title">全局构建队列</strong>
+                <span class="queue-title-credit">POWERED BY 打包嘟嘟</span>
+              </div>
+              <span id="queue-summary">正在读取</span>
+            </div>
+            <span class="queue-live" title="每 2.5 秒自动刷新">自动刷新</span>
+          </header>
+          <div id="queue-list" class="queue-list" aria-live="polite"></div>
+        </section>
+
+        <section
+          id="build-history-panel"
+          class="build-task-panel build-history-panel"
+          role="tabpanel"
+          aria-labelledby="build-history-tab"
+          hidden
+        >
+          <header class="build-history-heading">
+            <div>
+              <strong>构建记录</strong>
+              <span id="build-history-summary">正在读取</span>
+            </div>
+            <button id="build-history-refresh" class="text-button" type="button">刷新</button>
+          </header>
+          <div class="build-history-filters">
+            <label>
+              <span>项目</span>
+              <select id="build-history-target" aria-label="按项目筛选构建记录">
+                <option value="">全部项目</option>
+              </select>
+            </label>
+            <label>
+              <span>状态</span>
+              <select id="build-history-status" aria-label="按状态筛选构建记录">
+                <option value="">全部状态</option>
+              </select>
+            </label>
+            <label class="build-history-query">
+              <span>查找</span>
+              <input
+                id="build-history-query"
+                type="search"
+                placeholder="分支、发起人或任务 ID"
+                autocomplete="off"
+              />
+            </label>
+          </div>
+          <div
+            id="build-history-list"
+            class="queue-list build-history-list"
+            aria-live="polite"
+          ></div>
+          <footer class="build-history-pagination" aria-label="构建记录分页">
+            <span id="build-history-total">共 0 条</span>
+            <label>
+              <span>每页</span>
+              <select id="build-history-page-size" aria-label="每页构建记录数量"></select>
+            </label>
+            <button id="build-history-previous" class="text-button" type="button">上一页</button>
+            <label>
+              <span class="sr-only">页码</span>
+              <select id="build-history-page" aria-label="选择构建记录页码"></select>
+            </label>
+            <button id="build-history-next" class="text-button" type="button">下一页</button>
+          </footer>
+        </section>
+      </section>
+
+      <footer
+        id="status-bar"
+        class="status-bar"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        <span id="status-text" title="正在连接服务">正在连接服务</span>
+        <span id="extension-version" class="extension-version"></span>
+      </footer>
+    </main>
+    <script src="host-adapter.js"></script>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,2 @@
+FROM cuddly-runner-agent:pre-kook-build-graph-20260825-212000
+COPY apps/runner-agent/dist/main.js /app/apps/runner-agent/dist/main.js

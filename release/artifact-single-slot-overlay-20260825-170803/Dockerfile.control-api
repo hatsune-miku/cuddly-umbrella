@@ -1,0 +1,2 @@
+FROM cuddly-control-api:pre-artifact-single-slot-20260825-170803
+COPY apps/control-api/dist/main.js /app/apps/control-api/dist/main.js

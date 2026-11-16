@@ -1,0 +1,2 @@
+FROM cuddly-build-worker:pre-multi-env-20260825-193318
+COPY apps/build-worker/dist/main.js /app/apps/build-worker/dist/main.js

@@ -1,0 +1,2 @@
+FROM cuddly-runner-agent:pre-multi-env-20260825-193318
+COPY apps/runner-agent/dist/main.js /app/apps/runner-agent/dist/main.js

@@ -1,0 +1,14 @@
+services:
+  cert-manager:
+    volumes: !override
+      - /etc/letsencrypt:/etc/letsencrypt
+      - cert-manager-auth:/srv/cuddly/cert-auth:ro
+      - ./data/cert-manager-secrets:/srv/cuddly/secrets:ro
+
+  gateway:
+    ports: !override
+      - '127.0.0.1:9872:9872'
+
+  console:
+    ports: !override
+      - '127.0.0.1:9888:80'

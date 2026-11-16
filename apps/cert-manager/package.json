@@ -1,0 +1,10 @@
+{
+  "name": "@cuddly/cert-manager",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsup --config tsup.config.ts",
+    "start": "node dist/main.js",
+    "typecheck": "tsc --noEmit"
+  }
+}
