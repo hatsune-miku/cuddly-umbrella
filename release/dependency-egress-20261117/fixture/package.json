@@ -1,0 +1,10 @@
+{
+  "name": "bifrost-install-policy-fixture",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "postinstall": "node install.mjs",
+    "build": "node build.mjs"
+  }
+}

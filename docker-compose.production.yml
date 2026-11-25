@@ -12,3 +12,42 @@ services:
   console:
     ports: !override
       - '127.0.0.1:9888:80'
+
+  # Linux-only network namespace, confined to Runner traffic. Never use host mode.
+  runner-egress:
+    build:
+      context: .
+      dockerfile: docker/runner-egress.Dockerfile
+    restart: unless-stopped
+    cap_add: [NET_ADMIN]
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: '1'
+      net.ipv6.conf.default.disable_ipv6: '1'
+    networks:
+      default:
+        aliases: [runner-agent]
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'ip link show bifrost0 >/dev/null && wget -q -O /dev/null http://127.0.0.1:9091/version',
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    depends_on:
+      mihomo:
+        condition: service_healthy
+
+  runner-agent:
+    network_mode: service:runner-egress
+    expose: !reset []
+    init: true
+    environment:
+      CUDDLY_INSTALL_TIMEOUT_MS: ${CUDDLY_INSTALL_TIMEOUT_MS:-600000}
+    depends_on:
+      runner-egress:
+        condition: service_healthy
+        restart: true

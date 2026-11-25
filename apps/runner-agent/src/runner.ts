@@ -23,6 +23,11 @@ import { PRODUCT_NAME } from '@cuddly/product'
 import express, { type Request, type Response } from 'express'
 import { disableWorkspaceTypeChecking } from './typescript-build'
 import { applySentryBuildPolicy } from './sentry-build-policy'
+import {
+  DEFAULT_INSTALL_TIMEOUT_MS,
+  installTimeoutFromEnvironment,
+  prepareDependencyEnvironment,
+} from './build-dependencies'
 
 import {
   DEFAULT_REPOSITORY_CACHE_POLICY,
@@ -53,6 +58,7 @@ export interface RunnerOptions {
   repositoryCache?: Pick<RepositoryCache, 'checkout'>
   availableDiskBytes?: (directory: string) => Promise<number>
   readGitSshIdentity?: () => Promise<Buffer>
+  installTimeoutMs?: number
 }
 
 function authorized(req: Request, token: string): boolean {
@@ -89,6 +95,9 @@ interface RunnerCommandInput {
   displayCommand?: string
   captureStdout?: boolean
   signal?: AbortSignal
+  timeoutMs?: number
+  timeoutCode?: string
+  progressIntervalMs?: number
 }
 
 type RunnerCommand = (input: RunnerCommandInput) => Promise<string>
@@ -143,15 +152,20 @@ function killCommandProcess(child: ReturnType<typeof spawn>, signal: NodeJS.Sign
   }
 }
 
-const runCommand: RunnerCommand = async (input) => {
+export async function runCommand(input: RunnerCommandInput): Promise<string> {
   throwIfCanceled(input.signal)
   writeLog(input.log, `\n$ ${input.displayCommand || `${input.command} ${input.args.join(' ')}`}`)
   return new Promise<string>((resolve, reject) => {
     let stdout = ''
     let outputTail = ''
     let canceled = false
+    let timedOut = false
     let settled = false
     let forceKill: NodeJS.Timeout | undefined
+    let deadline: NodeJS.Timeout | undefined
+    let progress: NodeJS.Timeout | undefined
+    const startedAt = Date.now()
+    let lastOutputAt = startedAt
     const child = spawn(input.command, input.args, {
       cwd: input.cwd,
       env: input.env || process.env,
@@ -162,18 +176,62 @@ const runCommand: RunnerCommand = async (input) => {
     const cleanup = () => {
       input.signal?.removeEventListener('abort', cancel)
       if (forceKill) clearTimeout(forceKill)
+      if (deadline) clearTimeout(deadline)
+      if (progress) clearInterval(progress)
+    }
+    const stoppedFailure = () =>
+      timedOut
+        ? new RunnerFailure(
+            input.timeoutCode || 'COMMAND_TIMEOUT',
+            `Command exceeded ${input.timeoutMs} ms; process group terminated`,
+            outputTail
+          )
+        : cancellationFailure()
+    const stop = () => {
+      killCommandProcess(child, 'SIGTERM')
+      forceKill = setTimeout(() => {
+        killCommandProcess(child, 'SIGKILL')
+        // An escaped descendant may keep stdout open. The deadline must still settle.
+        if (settled) return
+        settled = true
+        child.stdout.destroy()
+        child.stderr.destroy()
+        cleanup()
+        reject(stoppedFailure())
+      }, 5_000)
+      forceKill.unref()
     }
     const cancel = () => {
-      if (canceled) return
+      if (canceled || timedOut || settled) return
       canceled = true
       writeLog(input.log, '[CANCELING] Stopping command process group')
-      killCommandProcess(child, 'SIGTERM')
-      forceKill = setTimeout(() => killCommandProcess(child, 'SIGKILL'), 5_000)
-      forceKill.unref()
+      stop()
     }
     input.signal?.addEventListener('abort', cancel, { once: true })
     if (input.signal?.aborted) cancel()
+    if (input.timeoutMs !== undefined && !canceled) {
+      deadline = setTimeout(() => {
+        if (settled || canceled) return
+        timedOut = true
+        writeLog(
+          input.log,
+          `[TIMEOUT] ${input.timeoutMs} ms deadline reached; stopping command process group`
+        )
+        stop()
+      }, input.timeoutMs)
+      deadline.unref()
+    }
+    if (input.progressIntervalMs) {
+      progress = setInterval(() => {
+        writeLog(
+          input.log,
+          `[INSTALL] elapsed=${Math.floor((Date.now() - startedAt) / 1000)}s output-idle=${Math.floor((Date.now() - lastOutputAt) / 1000)}s; waiting for package manager / lifecycle script`
+        )
+      }, input.progressIntervalMs)
+      progress.unref()
+    }
     const rememberOutput = (chunk: Buffer) => {
+      lastOutputAt = Date.now()
       outputTail = `${outputTail}${chunk.toString('utf8')}`.slice(-64 * 1024)
     }
     child.stdout.on('data', (chunk: Buffer) => {
@@ -188,19 +246,21 @@ const runCommand: RunnerCommand = async (input) => {
     child.on('error', (error) => {
       if (settled) return
       settled = true
-      if (canceled) killCommandProcess(child, 'SIGKILL')
+      if (canceled || timedOut) killCommandProcess(child, 'SIGKILL')
       cleanup()
       reject(
-        canceled ? cancellationFailure() : new RunnerFailure('COMMAND_START_FAILED', error.message)
+        canceled || timedOut
+          ? stoppedFailure()
+          : new RunnerFailure('COMMAND_START_FAILED', error.message)
       )
     })
     child.on('close', (code, signal) => {
       if (settled) return
       settled = true
-      if (canceled) killCommandProcess(child, 'SIGKILL')
+      if (canceled || timedOut) killCommandProcess(child, 'SIGKILL')
       cleanup()
-      if (canceled) {
-        reject(cancellationFailure())
+      if (canceled || timedOut) {
+        reject(stoppedFailure())
         return
       }
       if (code === 0) {
@@ -457,12 +517,28 @@ export async function runInstallCommand(
   input: Omit<RunnerCommandInput, 'command' | 'args' | 'displayCommand'>,
   executeCommand: RunnerCommand = runCommand
 ): Promise<void> {
-  try {
+  const timeoutMs = input.timeoutMs ?? DEFAULT_INSTALL_TIMEOUT_MS
+  const deadlineAt = Date.now() + timeoutMs
+  const execute = async (command: string) => {
+    throwIfCanceled(input.signal)
+    const remaining = deadlineAt - Date.now()
+    if (remaining <= 0)
+      throw new RunnerFailure('INSTALL_TIMEOUT', `Dependency installation exceeded ${timeoutMs} ms`)
     await executeCommand({
-      ...shellCommand(installCommand),
+      ...shellCommand(command),
       ...input,
-      displayCommand: installCommand,
+      timeoutMs: remaining,
+      timeoutCode: 'INSTALL_TIMEOUT',
+      progressIntervalMs: input.progressIntervalMs ?? 30_000,
+      displayCommand: command,
     })
+  }
+  writeLog(
+    input.log,
+    `[INSTALL] deadline=${timeoutMs}ms; lifecycle output enabled; lockfile fallback shares this deadline`
+  )
+  try {
+    await execute(installCommand)
   } catch (error) {
     const fallbackCommand = pnpmOutdatedLockfileFallbackCommand(installCommand, error)
     if (!fallbackCommand) throw error
@@ -470,11 +546,7 @@ export async function runInstallCommand(
       input.log,
       '[WARN] pnpm-lock.yaml is out of date on this branch; retrying once with --no-frozen-lockfile in the disposable build workspace'
     )
-    await executeCommand({
-      ...shellCommand(fallbackCommand),
-      ...input,
-      displayCommand: fallbackCommand,
-    })
+    await execute(fallbackCommand)
   }
 }
 
@@ -927,13 +999,19 @@ async function executeBuild(
     stage('INSTALLING')
     const useChinaRegistry = job.project.useChinaRegistry !== false
     const allowPnpmDependencyBuilds = commandUsesPnpm(job.project.installCommand)
+    const dependencies = await prepareDependencyEnvironment(
+      options.runnerRoot,
+      job.project,
+      allowPnpmDependencyBuilds || commandUsesPnpm(job.project.buildCommand)
+    )
     const installEnvironment = projectInstallEnvironment(
-      process.env,
+      { ...process.env, ...dependencies.environment },
       useChinaRegistry,
       allowPnpmDependencyBuilds
     )
     Object.assign(installEnvironment, projectGitEnvironment(installEnvironment))
     Object.assign(installEnvironment, projectEnvironmentVariables(job))
+    writeLog(log, `Dependency cache: ${dependencies.cacheRoot}`)
     writeLog(
       log,
       useChinaRegistry
@@ -948,6 +1026,7 @@ async function executeBuild(
       env: installEnvironment,
       log,
       signal: cancellationSignal,
+      timeoutMs: options.installTimeoutMs,
     })
 
     throwIfCanceled(cancellationSignal)
@@ -967,7 +1046,10 @@ async function executeBuild(
       ...build,
       cwd: sourceDirectory,
       env: {
-        ...packageManagerEnvironment(process.env, useChinaRegistry),
+        ...packageManagerEnvironment(
+          { ...process.env, ...dependencies.environment },
+          useChinaRegistry
+        ),
         ...projectGitEnvironment(process.env),
         ...projectEnvironmentVariables(job),
         NODE_ENV: 'production',
@@ -1189,6 +1271,7 @@ export async function createRunnerOptions(): Promise<RunnerOptions> {
     runnerRoot,
     artifactStore: createArtifactStore(),
     keepWorkspace: false,
+    installTimeoutMs: installTimeoutFromEnvironment(process.env),
     settingsSecret,
     repositoryCache: new RepositoryCache({
       root: path.join(runnerRoot, 'git-cache', 'v1'),

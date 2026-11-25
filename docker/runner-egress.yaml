@@ -1,0 +1,56 @@
+# This network namespace belongs only to the build Runner, never to the host.
+mode: rule
+log-level: info
+ipv6: false
+external-controller: 127.0.0.1:9091
+secret: ''
+profile:
+  store-selected: false
+  store-fake-ip: false
+dns:
+  enable: true
+  listen: 127.0.0.1:1053
+  ipv6: false
+  enhanced-mode: redir-host
+  default-nameserver:
+    - 127.0.0.11
+  nameserver:
+    - 127.0.0.11
+sniffer:
+  enable: true
+  force-dns-mapping: true
+  parse-pure-ip: true
+  sniff:
+    TLS:
+      ports: [443]
+    HTTP:
+      ports: [80]
+tun:
+  enable: true
+  device: bifrost0
+  stack: gvisor
+  auto-route: true
+  auto-detect-interface: true
+  strict-route: true
+  dns-hijack:
+    - any:53
+    - tcp://any:53
+  route-exclude-address:
+    - 10.0.0.0/8
+    - 127.0.0.0/8
+    - 169.254.0.0/16
+    - 172.16.0.0/12
+    - 192.168.0.0/16
+proxies:
+  - name: existing-egress
+    type: socks5
+    server: mihomo
+    port: 7890
+    udp: true
+rules:
+  - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR,169.254.0.0/16,DIRECT,no-resolve
+  - IP-CIDR,172.16.0.0/12,DIRECT,no-resolve
+  - IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
+  - MATCH,existing-egress

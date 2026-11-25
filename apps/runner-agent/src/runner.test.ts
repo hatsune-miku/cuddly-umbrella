@@ -98,6 +98,10 @@ describe('build console lifecycle messages', () => {
         },
         warnPackageManagerLockfileMismatch: noop,
         projectInstallEnvironment: empty,
+        prepareDependencyEnvironment: async () => ({
+          environment: {},
+          cacheRoot: '/fixture/cache',
+        }),
         commandUsesPnpm: () => false,
         projectGitEnvironment: empty,
         projectEnvironmentVariables: empty,
